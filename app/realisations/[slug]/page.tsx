@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, MapPin, Calendar, Ruler } from 'lucide-react'
+import { ArrowLeft, ArrowRight, MapPin, Calendar } from 'lucide-react'
 import { realisations, getRealisationBySlug } from '@/lib/data/realisations'
 import GoldDivider from '@/components/shared/GoldDivider'
 import ContactCTA from '@/components/sections/ContactCTA'
@@ -44,7 +44,7 @@ export default function RealisationPage({ params }: Props) {
             <ArrowLeft size={14} strokeWidth={1.5} />
             Retour aux réalisations
           </Link>
-          <p className="overline-text mb-4">{r.secteur} — {r.typologie}</p>
+          <p className="overline-text mb-4">{r.univers} — {r.secteur}</p>
           <h1
             className="font-cormorant font-light text-blanc-pur"
             style={{ fontSize: 'clamp(2rem, 4.5vw, 4.5rem)', lineHeight: 1.1 }}
@@ -66,18 +66,6 @@ export default function RealisationPage({ params }: Props) {
               <Calendar size={14} strokeWidth={1.5} className="text-or-champagne" />
               <span className="font-inter font-light text-sm text-gris-texte">{r.annee}</span>
             </div>
-            {r.surface && (
-              <div className="flex items-center gap-2">
-                <Ruler size={14} strokeWidth={1.5} className="text-or-champagne" />
-                <span className="font-inter font-light text-sm text-gris-texte">{r.surface}</span>
-              </div>
-            )}
-            {r.architecte && (
-              <div>
-                <span className="font-inter text-[0.6rem] tracking-[0.12em] uppercase text-gris-texte/50 mr-2">Architecture :</span>
-                <span className="font-inter font-light text-sm text-gris-texte">{r.architecte}</span>
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -90,16 +78,6 @@ export default function RealisationPage({ params }: Props) {
               <div>
                 <p className="overline-text mb-4">Le projet</p>
                 <p className="font-inter font-light text-gris-texte leading-relaxed">{r.description}</p>
-              </div>
-              <GoldDivider />
-              <div>
-                <p className="overline-text mb-4">Le défi</p>
-                <p className="font-inter font-light text-gris-texte leading-relaxed">{r.defi}</p>
-              </div>
-              <GoldDivider />
-              <div>
-                <p className="overline-text mb-4">Notre solution</p>
-                <p className="font-inter font-light text-gris-texte leading-relaxed">{r.solution}</p>
               </div>
             </div>
 

@@ -8,10 +8,14 @@ import GoldDivider from '@/components/shared/GoldDivider'
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
-  { href: '/le-groupe', label: 'Le Groupe' },
-  { href: '/savoir-faire', label: 'Savoir-faire' },
-  { href: '/secteurs/residentiel', label: 'Secteurs' },
+  { href: '/cuisine', label: 'Cuisine' },
+  { href: '/salle-de-bain', label: 'Salle de Bain' },
+  { href: '/espace-sante', label: 'Espace Santé' },
+  { href: '/bureautique', label: 'Bureautique' },
+  { href: '/nuancier', label: 'Nuancier' },
   { href: '/realisations', label: 'Réalisations' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/a-propos', label: 'À propos' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -29,7 +33,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-50 bg-noir-profond flex flex-col"
+          className="fixed inset-0 z-50 bg-noir-profond flex flex-col overflow-y-auto"
         >
           <div className="flex items-center justify-between px-6 py-6 border-b border-gris-fume">
             <Logo variant="blanc" />
@@ -42,19 +46,19 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </button>
           </div>
 
-          <nav className="flex flex-col flex-1 justify-center px-8">
+          <nav className="flex flex-col flex-1 justify-center px-8 py-6">
             {navLinks.map((link, i) => (
               <motion.div
                 key={link.href}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.4, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Link
                   href={link.href}
                   onClick={onClose}
-                  className="block py-5 font-cormorant text-4xl font-light text-blanc-pur hover:text-or-champagne transition-colors duration-300"
+                  className="block py-3 font-cormorant text-3xl font-light text-blanc-pur hover:text-or-champagne transition-colors duration-300"
                 >
                   {link.label}
                 </Link>
@@ -75,7 +79,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
               className="btn-primary w-full justify-center"
             >
-              Demander un devis
+              Devis gratuit
             </Link>
           </motion.div>
         </motion.div>

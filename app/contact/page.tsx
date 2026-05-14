@@ -3,36 +3,39 @@ import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react'
 import DevisForm from '@/components/forms/DevisForm'
 import GoldDivider from '@/components/shared/GoldDivider'
 import SectionTitle from '@/components/shared/SectionTitle'
-import { siteConfig } from '@/lib/data/seo'
 
 export const metadata: Metadata = {
-  title: 'Contact & Devis',
+  title: 'Contact & Devis gratuit — Solid Surface Tunisie',
   description:
-    'Demandez un devis pour votre projet sur mesure — Solid Surface, mobilier, agencement complet. Réponse sous 48 heures.',
+    'Demandez un devis gratuit pour votre projet Solid Surface sur mesure. Réponse sous 48 heures. Showroom à La Soukra, Tunis.',
 }
 
 const infos = [
   {
     icon: MapPin,
-    label: 'Showroom & Atelier',
-    value: `${siteConfig.address.street}, ${siteConfig.address.city}`,
+    label: 'Showroom & Bureau',
+    lines: [
+      'Résidence Tej Ezzahra, Bureau n°2.5',
+      'Avenue Fattouma Bourguiba',
+      'La Soukra, Tunis',
+    ],
   },
   {
     icon: Phone,
     label: 'Téléphone',
-    value: siteConfig.address.phone,
-    href: `tel:${siteConfig.address.phone}`,
+    lines: ['+216 99 635 309', '+216 98 401 512'],
+    hrefs: ['tel:+21699635309', 'tel:+21698401512'],
   },
   {
     icon: Mail,
     label: 'Email',
-    value: siteConfig.address.email,
-    href: `mailto:${siteConfig.address.email}`,
+    lines: ['gestcom@promacryl.tn'],
+    hrefs: ['mailto:gestcom@promacryl.tn'],
   },
   {
     icon: Clock,
     label: 'Horaires',
-    value: 'Lun – Ven : 8h30 – 18h00 | Sam : 9h00 – 13h00',
+    lines: ['Lun–Ven : 8h30–18h00', 'Sam : 8h00–14h00'],
   },
 ]
 
@@ -52,7 +55,7 @@ export default function ContactPage() {
             <span className="text-or-champagne">votre projet.</span>
           </h1>
           <p className="font-inter font-light text-gris-texte max-w-lg leading-relaxed">
-            Architectes, promoteurs, particuliers — nous répondons à chaque demande
+            Particuliers, architectes et professionnels — nous répondons à chaque demande
             sous 48 heures ouvrées. Venez découvrir nos matières au showroom.
           </p>
         </div>
@@ -78,24 +81,30 @@ export default function ContactPage() {
             <div>
               <SectionTitle
                 overline="Nous trouver"
-                title="Showroom & Atelier."
+                title="Showroom & Bureau."
               />
 
-              <div className="space-y-6 mb-10">
-                {infos.map(({ icon: Icon, label, value, href }) => (
+              <div className="space-y-7 mb-10">
+                {infos.map(({ icon: Icon, label, lines, hrefs }) => (
                   <div key={label} className="flex items-start gap-4">
                     <div className="w-10 h-10 border border-gris-fume flex items-center justify-center shrink-0">
                       <Icon size={16} strokeWidth={1.5} className="text-or-champagne" />
                     </div>
                     <div>
                       <p className="overline-text mb-1">{label}</p>
-                      {href ? (
-                        <a href={href} className="font-inter font-light text-sm text-gris-texte hover:text-blanc-pur transition-colors">
-                          {value}
-                        </a>
-                      ) : (
-                        <p className="font-inter font-light text-sm text-gris-texte">{value}</p>
-                      )}
+                      {lines.map((line, i) => (
+                        hrefs?.[i] ? (
+                          <a
+                            key={i}
+                            href={hrefs[i]}
+                            className="block font-inter font-light text-sm text-gris-texte hover:text-blanc-pur transition-colors"
+                          >
+                            {line}
+                          </a>
+                        ) : (
+                          <p key={i} className="font-inter font-light text-sm text-gris-texte">{line}</p>
+                        )
+                      ))}
                     </div>
                   </div>
                 ))}
@@ -107,13 +116,13 @@ export default function ContactPage() {
               <div className="border border-gris-fume p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <MessageCircle size={16} strokeWidth={1.5} className="text-or-champagne" />
-                  <p className="overline-text">WhatsApp Business</p>
+                  <p className="overline-text">WhatsApp</p>
                 </div>
                 <p className="font-inter font-light text-sm text-gris-texte mb-4">
                   Pour une réponse rapide, contactez-nous directement sur WhatsApp.
                 </p>
                 <a
-                  href={`https://wa.me/${siteConfig.address.whatsapp}`}
+                  href="https://wa.me/21699635309"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary w-full justify-center text-xs"
@@ -127,7 +136,7 @@ export default function ContactPage() {
                 <div className="text-center">
                   <MapPin size={24} strokeWidth={1} className="text-or-champagne mx-auto mb-2" />
                   <p className="font-inter font-light text-xs text-gris-texte">
-                    Zone industrielle, Tunis
+                    Résidence Tej Ezzahra<br />La Soukra, Tunis
                   </p>
                 </div>
               </div>

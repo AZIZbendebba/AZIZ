@@ -9,10 +9,15 @@ import MobileMenu from './MobileMenu'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/le-groupe', label: 'Le Groupe' },
-  { href: '/savoir-faire', label: 'Savoir-faire' },
-  { href: '/secteurs/residentiel', label: 'Secteurs' },
+  { href: '/cuisine', label: 'Cuisine' },
+  { href: '/salle-de-bain', label: 'Salle de Bain' },
+  { href: '/espace-sante', label: 'Espace Santé' },
+  { href: '/bureautique', label: 'Bureautique' },
+  { href: '/nuancier', label: 'Nuancier' },
   { href: '/realisations', label: 'Réalisations' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/a-propos', label: 'À propos' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export default function Header() {
@@ -41,12 +46,12 @@ export default function Header() {
         <div className="container-site flex items-center justify-between h-20 lg:h-24">
           <Logo variant="blanc" />
 
-          <nav className="hidden lg:flex items-center gap-10" aria-label="Navigation principale">
+          <nav className="hidden xl:flex items-center gap-7" aria-label="Navigation principale">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-inter text-[0.65rem] font-500 tracking-[0.15em] uppercase text-gris-texte hover:text-or-champagne transition-colors duration-300 relative group"
+                className="font-inter text-[0.6rem] font-500 tracking-[0.12em] uppercase text-gris-texte hover:text-or-champagne transition-colors duration-300 relative group"
               >
                 {link.label}
                 <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-or-champagne transition-all duration-400 group-hover:w-full" />
@@ -57,14 +62,14 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className="hidden lg:inline-flex btn-primary text-[0.65rem]"
+              className="hidden xl:inline-flex btn-primary text-[0.6rem]"
             >
-              Devis
+              Devis gratuit
             </Link>
 
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-blanc-pur hover:text-or-champagne transition-colors duration-300"
+              className="xl:hidden text-blanc-pur hover:text-or-champagne transition-colors duration-300"
               aria-label="Ouvrir le menu"
             >
               <Menu size={22} strokeWidth={1.5} />

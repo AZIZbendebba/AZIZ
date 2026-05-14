@@ -10,28 +10,24 @@ import GoldDivider from '@/components/shared/GoldDivider'
 
 const schema = z.object({
   typeProjet: z.string().min(1, 'Sélectionnez un type de projet'),
-  secteur: z.string().min(1, 'Sélectionnez un secteur'),
-  espace: z.string().min(1, 'Précisez l\'espace concerné'),
   surface: z.string().optional(),
   delai: z.string().optional(),
-  budget: z.string().optional(),
   nom: z.string().min(2, 'Votre nom est requis'),
-  telephone: z.string().min(8, 'Numéro de téléphone invalide'),
   email: z.string().email('Adresse email invalide'),
+  telephone: z.string().min(8, 'Numéro de téléphone invalide'),
   ville: z.string().min(2, 'Ville requise'),
   message: z.string().optional(),
+  commentConnu: z.string().optional(),
 })
 
 type FormData = z.infer<typeof schema>
 
-const typesProjets = ['Construction neuve', 'Rénovation', 'Agencement commercial', 'Projet hôtelier', 'Établissement de soins', 'Autre']
-const secteursForm = ['Résidentiel', 'Hôtellerie', 'Healthcare', 'Commercial', 'Institutionnel', 'Espaces de travail']
-const espaces = ['Cuisine', 'Salle de bain', 'Salon / Séjour', 'Espace d\'accueil', 'Bureau', 'Salle de conférence', 'Espace restauration', 'Autre']
-const surfaces = ['Moins de 20 m²', '20 – 50 m²', '50 – 100 m²', '100 – 300 m²', 'Plus de 300 m²']
-const delais = ['Moins de 3 mois', '3 – 6 mois', '6 mois – 1 an', 'Plus d\'un an', 'Pas encore défini']
-const budgets = ['Moins de 10 000 TND', '10 000 – 30 000 TND', '30 000 – 100 000 TND', 'Plus de 100 000 TND', 'À définir ensemble']
+const typesProjets = ['Cuisine', 'Salle de bain', 'Espace santé / médical', 'Bureautique / professionnel', 'Autre']
+const surfaces = ['Moins de 5 m²', '5 – 15 m²', '15 – 40 m²', 'Plus de 40 m²', 'Pas encore défini']
+const delais = ['Moins de 2 mois', '2 – 6 mois', '6 mois – 1 an', 'Plus d\'un an', 'Pas encore défini']
+const commentConnus = ['Recommandation', 'Réseaux sociaux', 'Moteur de recherche', 'Bouche à oreille', 'Autre']
 
-const STEPS = ['Votre projet', 'Détails', 'Coordonnées']
+const STEPS = ['Votre projet', 'Vos coordonnées', 'Message']
 
 export default function DevisForm() {
   const [step, setStep] = useState(0)
@@ -41,7 +37,6 @@ export default function DevisForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    watch,
     trigger,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -55,16 +50,16 @@ export default function DevisForm() {
 
   const nextStep = async () => {
     const fields: (keyof FormData)[][] = [
-      ['typeProjet', 'secteur'],
-      ['espace'],
-      ['nom', 'telephone', 'email', 'ville'],
+      ['typeProjet'],
+      ['nom', 'email', 'telephone', 'ville'],
+      [],
     ]
     const valid = await trigger(fields[step])
     if (valid) setStep((s) => s + 1)
   }
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1200))
+    await new Promise((r) => setTimeout(r, 1000))
     console.log('Devis form:', data)
     setSubmitted(true)
   }
@@ -84,7 +79,7 @@ export default function DevisForm() {
         </h3>
         <p className="font-inter font-light text-gris-texte text-sm max-w-md mx-auto">
           Nous avons bien reçu votre demande de devis. Notre équipe vous contacte
-          sous 48 heures ouvrées.
+          sous 48 heures ouvrées à l&apos;adresse <span className="text-or-champagne">gestcom@promacryl.tn</span>.
         </p>
       </motion.div>
     )
@@ -150,35 +145,6 @@ export default function DevisForm() {
               </div>
 
               <div>
-                <label className={labelClass}>Secteur *</label>
-                <select {...register('secteur')} className={inputClass}>
-                  <option value="">Sélectionner</option>
-                  {secteursForm.map((s) => <option key={s} value={s}>{s}</option>)}
-                </select>
-                {errors.secteur && <p className={errorClass}>{errors.secteur.message}</p>}
-              </div>
-            </motion.div>
-          )}
-
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-6"
-            >
-              <div>
-                <label className={labelClass}>Espace concerné *</label>
-                <select {...register('espace')} className={inputClass}>
-                  <option value="">Sélectionner</option>
-                  {espaces.map((e) => <option key={e} value={e}>{e}</option>)}
-                </select>
-                {errors.espace && <p className={errorClass}>{errors.espace.message}</p>}
-              </div>
-
-              <div>
                 <label className={labelClass}>Surface estimée</label>
                 <select {...register('surface')} className={inputClass}>
                   <option value="">Sélectionner (optionnel)</option>
@@ -193,20 +159,12 @@ export default function DevisForm() {
                   {delais.map((d) => <option key={d} value={d}>{d}</option>)}
                 </select>
               </div>
-
-              <div>
-                <label className={labelClass}>Budget indicatif</label>
-                <select {...register('budget')} className={inputClass}>
-                  <option value="">Sélectionner (optionnel)</option>
-                  {budgets.map((b) => <option key={b} value={b}>{b}</option>)}
-                </select>
-              </div>
             </motion.div>
           )}
 
-          {step === 2 && (
+          {step === 1 && (
             <motion.div
-              key="step2"
+              key="step1"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -219,7 +177,7 @@ export default function DevisForm() {
                   <input
                     {...register('nom')}
                     type="text"
-                    placeholder="Jean Dupont"
+                    placeholder="Mohamed Dupont"
                     className={inputClass}
                   />
                   {errors.nom && <p className={errorClass}>{errors.nom.message}</p>}
@@ -258,20 +216,41 @@ export default function DevisForm() {
                   {errors.ville && <p className={errorClass}>{errors.ville.message}</p>}
                 </div>
               </div>
+            </motion.div>
+          )}
 
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-6"
+            >
               <div>
-                <label className={labelClass}>Message (optionnel)</label>
+                <label className={labelClass}>Message libre</label>
                 <textarea
                   {...register('message')}
-                  rows={4}
-                  placeholder="Décrivez votre projet en quelques mots…"
+                  rows={5}
+                  placeholder="Décrivez votre projet en quelques mots — dimensions, matière souhaitée, contraintes particulières…"
                   className={`${inputClass} resize-none`}
                 />
               </div>
 
+              <div>
+                <label className={labelClass}>Comment nous avez-vous connus ?</label>
+                <select {...register('commentConnu')} className={inputClass}>
+                  <option value="">Sélectionner (optionnel)</option>
+                  {commentConnus.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+
               <p className="font-inter font-light text-xs text-gris-texte/50">
                 En soumettant ce formulaire, vous acceptez que vos données soient utilisées
-                pour traiter votre demande. Consulter notre{' '}
+                pour traiter votre demande. Votre message sera envoyé à{' '}
+                <span className="text-or-champagne/70">gestcom@promacryl.tn</span>.
+                Consulter notre{' '}
                 <a href="/politique-confidentialite" className="text-or-champagne/70 hover:text-or-champagne transition-colors">
                   politique de confidentialité
                 </a>.
@@ -305,7 +284,7 @@ export default function DevisForm() {
               disabled={isSubmitting}
               className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Envoi en cours…' : 'Envoyer la demande'}
+              {isSubmitting ? 'Envoi en cours…' : 'Envoyer ma demande'}
               <Send size={14} strokeWidth={1.5} />
             </button>
           )}

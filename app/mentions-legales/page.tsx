@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import GoldDivider from '@/components/shared/GoldDivider'
 
 export const metadata: Metadata = {
-  title: 'Mentions légales',
-  description: 'Mentions légales de Solid Surface Tunisie — Techno-Logika SA.',
+  title: 'Mentions légales — Solid Surface Tunisie',
+  description: 'Mentions légales du site solid-surface-tunisie.com — édité par Promacryl SARL.',
   robots: { index: false },
 }
 
@@ -19,13 +19,12 @@ export default function MentionsLegalesPage() {
           <div>
             <h2 className="font-cormorant font-light text-blanc-pur text-2xl mb-4">Éditeur du site</h2>
             <p>
-              <strong className="font-medium text-blanc-pur/80">Solid Surface Tunisie</strong> — entité commerciale du groupe Techno-Logika SA<br />
-              Société Anonyme au capital de [capital] TND<br />
-              Siège social : Zone industrielle, Tunis, Tunisie<br />
-              Matricule fiscal : [MF]<br />
-              Registre du commerce : [RC]<br />
-              Téléphone : +216 71 000 000<br />
-              Email : contact@solid-surface-tunisie.com
+              Le site <strong className="font-medium text-blanc-pur/80">solid-surface-tunisie.com</strong> est édité
+              par <strong className="font-medium text-blanc-pur/80">Promacryl SARL</strong>, exploitant la marque
+              commerciale <strong className="font-medium text-blanc-pur/80">Solid Surface Tunisie</strong>.<br /><br />
+              Siège social : Résidence Tej Ezzahra, Bureau n°2.5, Avenue Fattouma Bourguiba, La Soukra, Tunis.<br />
+              Téléphone : +216 99 635 309<br />
+              Email : gestcom@promacryl.tn
             </p>
           </div>
 
@@ -34,8 +33,8 @@ export default function MentionsLegalesPage() {
           <div>
             <h2 className="font-cormorant font-light text-blanc-pur text-2xl mb-4">Hébergement</h2>
             <p>
-              Ce site est hébergé par [Hébergeur], [Adresse], [Pays].<br />
-              Téléphone : [Téléphone hébergeur]
+              Ce site est hébergé par un prestataire tiers. Les coordonnées de l&apos;hébergeur sont disponibles
+              sur demande à l&apos;adresse gestcom@promacryl.tn.
             </p>
           </div>
 
@@ -45,9 +44,9 @@ export default function MentionsLegalesPage() {
             <h2 className="font-cormorant font-light text-blanc-pur text-2xl mb-4">Propriété intellectuelle</h2>
             <p>
               L&apos;ensemble des contenus présents sur ce site (textes, images, logos, photographies)
-              est la propriété exclusive de Solid Surface Tunisie / Techno-Logika SA et est protégé
+              est la propriété exclusive de Promacryl SARL — Solid Surface Tunisie — et est protégé
               par les lois tunisiennes et internationales relatives à la propriété intellectuelle.
-              Toute reproduction, même partielle, est strictement interdite sans autorisation préalable.
+              Toute reproduction, même partielle, est strictement interdite sans autorisation préalable écrite.
             </p>
           </div>
 

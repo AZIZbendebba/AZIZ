@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import Logo from '@/components/shared/Logo'
 import ScrollIndicator from '@/components/widgets/ScrollIndicator'
 
 export default function Hero() {
@@ -24,7 +23,6 @@ export default function Hero() {
       className="relative w-full h-screen min-h-[700px] overflow-hidden bg-noir-profond"
       aria-label="Section héro"
     >
-      {/* Background image with parallax */}
       <motion.div
         style={{ y: imageY }}
         className="absolute inset-0 scale-110"
@@ -46,23 +44,20 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Content */}
       <motion.div
         style={{ y: contentY, opacity }}
         className="relative z-10 h-full flex flex-col justify-center"
       >
         <div className="container-site">
-          {/* Overline */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overline-text mb-8"
           >
-            Solid Surface Tunisie — Techno-Logika SA
+            Solid Surface Tunisie
           </motion.p>
 
-          {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,24 +65,21 @@ export default function Hero() {
             className="font-cormorant font-light text-blanc-pur leading-tight mb-6"
             style={{ fontSize: 'clamp(2.5rem, 6vw, 5.5rem)' }}
           >
-            L&apos;émotion d&apos;une surface,
+            Votre intérieur mérite
             <br />
-            <em className="not-italic text-or-champagne">la puissance d&apos;une création.</em>
+            <em className="not-italic text-or-champagne">une surface sans compromis.</em>
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="font-inter font-light text-gris-texte max-w-xl mb-12 text-base md:text-lg leading-relaxed"
           >
-            Conception, fabrication et installation sur mesure —
-            surfaces solides et mobilier d&apos;exception pour la maison,
-            l&apos;hôtellerie et l&apos;institutionnel.
+            Cuisines, salles de bain et espaces professionnels en Solid Surface
+            sur mesure. Fabriqués à Tunis, livrés partout en Tunisie.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -95,18 +87,17 @@ export default function Hero() {
             className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
           >
             <Link href="/contact" className="btn-primary">
-              Demander un devis
+              Démarrer mon projet
               <ArrowRight size={14} strokeWidth={1.5} />
             </Link>
             <Link href="/realisations" className="btn-ghost">
-              Voir nos réalisations
+              Découvrir nos réalisations
               <ArrowRight size={14} strokeWidth={1.5} />
             </Link>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
         style={{ opacity }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
@@ -114,7 +105,6 @@ export default function Hero() {
         <ScrollIndicator />
       </motion.div>
 
-      {/* Gold line accent */}
       <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden xl:block">
         <div
           className="w-px h-32 opacity-40"

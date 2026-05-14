@@ -4,21 +4,25 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
-import { realisations } from '@/lib/data/realisations'
-import { secteurs } from '@/lib/data/secteurs'
+import { realisations, universDisponibles, secteursDisponibles } from '@/lib/data/realisations'
 import GoldDivider from '@/components/shared/GoldDivider'
 
 const ALL = 'Tous'
 
 export default function RealisationsPage() {
-  const [activeFilter, setActiveFilter] = useState(ALL)
+  const [activeUnivers, setActiveUnivers] = useState(ALL)
+  const [activeSecteur, setActiveSecteur] = useState(ALL)
 
-  const filters = [ALL, ...secteurs.map((s) => s.nom)]
+  const universFilters = [ALL, ...universDisponibles]
+  const secteurFilters = [ALL, ...secteursDisponibles]
 
   const filtered = useMemo(() => {
-    if (activeFilter === ALL) return realisations
-    return realisations.filter((r) => r.secteur === activeFilter)
-  }, [activeFilter])
+    return realisations.filter((r) => {
+      const matchUnivers = activeUnivers === ALL || r.univers === activeUnivers
+      const matchSecteur = activeSecteur === ALL || r.secteur === activeSecteur
+      return matchUnivers && matchSecteur
+    })
+  }, [activeUnivers, activeSecteur])
 
   return (
     <>
@@ -36,21 +40,48 @@ export default function RealisationsPage() {
           </h1>
           <GoldDivider className="mb-10" />
 
-          {/* Filters */}
-          <div className="flex flex-wrap items-center gap-2">
-            {filters.map((f) => (
-              <button
-                key={f}
-                onClick={() => setActiveFilter(f)}
-                className={`font-inter text-[0.6rem] tracking-[0.15em] uppercase px-4 py-2 border transition-all duration-300 ${
-                  activeFilter === f
-                    ? 'border-or-champagne text-or-champagne bg-or-champagne/5'
-                    : 'border-gris-fume text-gris-texte hover:border-gris-texte'
-                }`}
-              >
-                {f}
-              </button>
-            ))}
+          {/* Filtre univers */}
+          <div className="mb-4">
+            <p className="font-inter text-[0.55rem] tracking-[0.15em] uppercase text-gris-texte/50 mb-3">
+              Univers
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              {universFilters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActiveUnivers(f)}
+                  className={`font-inter text-[0.6rem] tracking-[0.15em] uppercase px-4 py-2 border transition-all duration-300 ${
+                    activeUnivers === f
+                      ? 'border-or-champagne text-or-champagne bg-or-champagne/5'
+                      : 'border-gris-fume text-gris-texte hover:border-gris-texte'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Filtre secteur */}
+          <div className="mt-4">
+            <p className="font-inter text-[0.55rem] tracking-[0.15em] uppercase text-gris-texte/50 mb-3">
+              Secteur
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              {secteurFilters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActiveSecteur(f)}
+                  className={`font-inter text-[0.6rem] tracking-[0.15em] uppercase px-4 py-2 border transition-all duration-300 ${
+                    activeSecteur === f
+                      ? 'border-or-champagne text-or-champagne bg-or-champagne/5'
+                      : 'border-gris-fume text-gris-texte hover:border-gris-texte'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -80,7 +111,7 @@ export default function RealisationsPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-noir-profond/85 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <p className="overline-text mb-2 text-or-champagne/60">{r.secteur} — {r.annee}</p>
+                        <p className="overline-text mb-2 text-or-champagne/60">{r.univers} — {r.annee}</p>
                         <h2 className="font-cormorant font-light text-blanc-pur text-xl group-hover:text-or-champagne transition-colors duration-300">
                           {r.titre}
                         </h2>
@@ -96,10 +127,10 @@ export default function RealisationsPage() {
           {filtered.length === 0 && (
             <div className="text-center py-24">
               <p className="font-cormorant font-light text-gris-texte text-2xl">
-                Aucune réalisation dans ce secteur pour l&apos;instant.
+                Aucune réalisation pour cette sélection.
               </p>
               <button
-                onClick={() => setActiveFilter(ALL)}
+                onClick={() => { setActiveUnivers(ALL); setActiveSecteur(ALL) }}
                 className="btn-ghost mt-6 inline-flex"
               >
                 Voir toutes les réalisations

@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
-import { siteConfig } from '@/lib/data/seo'
+
+const WHATSAPP_URL = 'https://wa.me/21699635309'
 
 export default function WhatsAppFloat() {
   const message = encodeURIComponent('Bonjour, je souhaite obtenir des informations sur vos réalisations.')
-  const url = `https://wa.me/${siteConfig.address.whatsapp}?text=${message}`
+  const url = `${WHATSAPP_URL}?text=${message}`
 
   return (
     <motion.a
