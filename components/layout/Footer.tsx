@@ -37,8 +37,8 @@ export default function Footer() {
           <div>
             <Logo variant="blanc" className="mb-6" />
             <p className="font-inter font-light text-gris-texte text-sm leading-relaxed mb-6 max-w-xs">
-              Surfaces Solid Surface sur mesure — cuisines, salles de bain et espaces professionnels.
-              Fabriqués à Tunis, livrés partout en Tunisie.
+              Surfaces Solid Surface et mobilier sur mesure — cuisines, salles de bain et espaces
+              professionnels conçus dans leur intégralité. Fabriqués à Tunis, livrés partout en Tunisie.
             </p>
             <div className="flex items-center gap-4 mt-6">
               <a

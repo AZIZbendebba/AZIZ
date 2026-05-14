@@ -7,7 +7,7 @@ import ContactCTA from '@/components/sections/ContactCTA'
 export const metadata: Metadata = {
   title: 'À propos — Solid Surface Tunisie',
   description:
-    'Depuis 2006, Solid Surface Tunisie fabrique des surfaces sur mesure à Tunis. Plus de 15 ans d\'expertise au service des cuisines, salles de bain et espaces professionnels.',
+    'Depuis 2006, Solid Surface Tunisie conçoit et fabrique surfaces Solid Surface et mobilier sur mesure à Tunis. Un seul interlocuteur, du dessin à la pose.',
 }
 
 const valeurs = [
@@ -21,7 +21,20 @@ const valeurs = [
   },
   {
     titre: 'La durée dans le temps',
-    texte: 'Nos surfaces sont pensées pour durer des décennies. La qualité, c\'est aussi ce qui ne demande pas d\'être refait.',
+    texte: 'Nos surfaces et notre mobilier sont pensés pour durer des décennies. La qualité, c\'est aussi ce qui ne demande pas d\'être refait.',
+  },
+]
+
+const savoirFaire = [
+  {
+    num: '01',
+    titre: 'La transformation du Solid Surface',
+    texte: 'Transformateur agréé Corian® DuPont™. Découpe numérique, thermoformage, soudures invisibles, ponçage et finition. Nous fabriquons à la demande, sans série, selon les dimensions exactes de chaque projet.',
+  },
+  {
+    num: '02',
+    titre: 'La menuiserie d\'agencement',
+    texte: 'Notre atelier de menuiserie conçoit et fabrique tout le mobilier qui accompagne nos surfaces : cuisines complètes, dressings, mobilier salle de bain, mobilier médical, bureaux et bibliothèques. Pas de sous-traitance — tout est réalisé par nos équipes.',
   },
 ]
 
@@ -72,9 +85,9 @@ export default function AProposPage() {
                   des cuisines familiales aux espaces médicaux, des salles de bain aux sièges sociaux.
                 </p>
                 <p>
-                  Aujourd&apos;hui, notre engagement reste identique : concevoir, fabriquer et installer
-                  chaque surface sur mesure, sans joint visible, sans compromis sur la qualité.
-                  La précision du geste, la qualité de la matière, la parole tenue.
+                  Aujourd&apos;hui, nous proposons une offre intégrée unique en Tunisie : surfaces Solid Surface
+                  et mobilier sur mesure conçus et fabriqués sous le même toit, posés par les mêmes équipes.
+                  Un seul interlocuteur, du dessin à la pose.
                 </p>
               </div>
             </div>
@@ -100,8 +113,34 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Valeurs */}
+      {/* Savoir-faire intégré */}
       <section className="section-padding bg-gris-fume">
+        <div className="container-site">
+          <SectionTitle
+            overline="Notre savoir-faire"
+            title="Deux maîtrises,&#10;une seule offre."
+            description="Notre atelier intègre deux savoir-faire complémentaires sous le même toit. C'est cette intégration qui fait notre différence : un seul interlocuteur, un seul devis, une cohérence parfaite entre la surface et le meuble qui la soutient."
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gris-fume/50 mt-12">
+            {savoirFaire.map((sf) => (
+              <div key={sf.num} className="bg-noir-profond p-10 lg:p-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="font-cormorant text-or-champagne/60 text-4xl font-light leading-none">
+                    {sf.num}
+                  </span>
+                  <GoldDivider variant="vertical" className="h-6 opacity-30" />
+                </div>
+                <h3 className="font-cormorant font-light text-blanc-pur text-2xl mb-4">{sf.titre}</h3>
+                <p className="font-inter font-light text-sm text-gris-texte leading-relaxed">{sf.texte}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Valeurs */}
+      <section className="section-padding bg-noir-profond">
         <div className="container-site">
           <SectionTitle
             overline="Nos valeurs"
@@ -110,7 +149,7 @@ export default function AProposPage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gris-fume/50 mt-8">
             {valeurs.map((v, i) => (
-              <div key={v.titre} className="bg-noir-profond p-10 lg:p-12">
+              <div key={v.titre} className="bg-noir-profond p-10 lg:p-12 border border-gris-fume/10">
                 <div className="w-8 h-8 border border-or-champagne flex items-center justify-center mb-8">
                   <span className="font-cormorant text-or-champagne text-lg">{String(i + 1).padStart(2, '0')}</span>
                 </div>

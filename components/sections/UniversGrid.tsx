@@ -14,7 +14,7 @@ export default function UniversGrid() {
         <SectionTitle
           overline="Nos univers"
           title="Du sur mesure&#10;pour chaque espace."
-          description="Quatre univers d'usage, une seule exigence : zéro joint visible, 100 % sur mesure."
+          description="Quatre univers d'usage, une offre intégrée : des surfaces Solid Surface aux mobiliers complémentaires, tout est conçu et fabriqué chez nous."
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">

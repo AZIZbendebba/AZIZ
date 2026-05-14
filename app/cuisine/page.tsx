@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import SectionTitle from '@/components/shared/SectionTitle'
 import GoldDivider from '@/components/shared/GoldDivider'
 import ContactCTA from '@/components/sections/ContactCTA'
@@ -9,18 +9,25 @@ import Temoignages from '@/components/sections/Temoignages'
 import { realisations } from '@/lib/data/realisations'
 
 export const metadata: Metadata = {
-  title: 'Cuisine en Solid Surface sur mesure — Solid Surface Tunisie',
+  title: 'Cuisine sur mesure — Solid Surface Tunisie',
   description:
-    'Plans de travail, îlots centraux et vasques intégrées sans joint en Solid Surface. Fabriqués sur mesure à Tunis.',
+    'Surfaces Solid Surface et mobilier de cuisine sur mesure, conçus et fabriqués sous le même toit à Tunis. Plans de travail, îlots, caissons et façades intégrés.',
 }
 
-const points = [
-  'Plan de travail monolithique sans joint visible',
-  'Îlot central sur mesure avec intégration évier',
-  'Vasque intégrée dans le plan de travail',
-  'Crédence et habillage mural assortis',
-  'Résistance aux taches, à la chaleur et aux produits ménagers',
-  'Réparable à neuf par ponçage professionnel',
+const surfaceItems = [
+  'Plans de travail Solid Surface (Corian) sans joint',
+  'Crédences et tablettes intégrées',
+  'Vasques et éviers thermoformés',
+  'Îlots centraux — plan et habillage',
+  'Finitions multi-couleurs et veinées',
+]
+
+const mobilierItems = [
+  'Caissons et façades sur mesure',
+  'Tiroirs, coulissants, rangements verticaux',
+  'Îlots centraux complets (structure + plan)',
+  'Étagères et niches intégrées',
+  'Mobilier complémentaire (vaisseliers, bibliothèques)',
 ]
 
 const realisationsCuisine = realisations.filter((r) => r.universSlug === 'cuisine').slice(0, 3)
@@ -44,34 +51,54 @@ export default function CuisinePage() {
             className="font-cormorant font-light text-blanc-pur mb-4"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.1 }}
           >
-            Plans de travail, îlots centraux
+            De la conception à la pose —
             <br />
-            <span className="text-or-champagne">et vasques intégrées sans joint.</span>
+            <span className="text-or-champagne">surfaces et mobilier sous le même toit.</span>
           </h1>
         </div>
       </section>
 
       <GoldDivider />
 
-      {/* Intro */}
+      {/* Intro + 2 blocs */}
       <section className="section-padding bg-noir-profond">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
             <div>
               <SectionTitle
-                overline="Sur mesure"
-                title="La cuisine que vous méritez,&#10;sans compromis."
-                description="Le Solid Surface transforme votre cuisine en un espace sans joint visible, résistant et réparable. Chaque plan de travail est fabriqué à la mesure exacte de votre espace."
+                overline="Sur mesure, de A à Z"
+                title="Votre cuisine complète,&#10;un seul devis."
+                description="Nous ne fabriquons pas seulement le plan de travail. Nous concevons et fabriquons l'intégralité de votre cuisine — surfaces Solid Surface et mobilier intégré — sous le même toit, par les mêmes équipes."
               />
 
-              <ul className="space-y-3 mt-8">
-                {points.map((p) => (
-                  <li key={p} className="flex items-start gap-3">
-                    <Check size={14} strokeWidth={1.5} className="text-or-champagne mt-0.5 shrink-0" />
-                    <span className="font-inter font-light text-sm text-gris-texte">{p}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10">
+                <div>
+                  <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-or-champagne mb-4">
+                    La surface
+                  </p>
+                  <ul className="space-y-2.5">
+                    {surfaceItems.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
+                        <span className="text-or-champagne mt-1 shrink-0">—</span>
+                        <span className="font-inter font-light text-sm text-gris-texte leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-or-champagne mb-4">
+                    Le mobilier
+                  </p>
+                  <ul className="space-y-2.5">
+                    {mobilierItems.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
+                        <span className="text-or-champagne mt-1 shrink-0">—</span>
+                        <span className="font-inter font-light text-sm text-gris-texte leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
               <Link href="/contact" className="btn-primary mt-10 inline-flex">
                 Démarrer mon projet cuisine
@@ -79,22 +106,45 @@ export default function CuisinePage() {
               </Link>
             </div>
 
-            <div className="relative aspect-[4/5] overflow-hidden">
-              <Image
-                src="/images/cuisine-blanc-vene.jpg"
-                alt="Plan de travail en Solid Surface blanc veiné"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            <div className="space-y-4">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/cuisine-blanc-vene.jpg"
+                  alt="Plan de travail en Solid Surface blanc veiné"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/cuisine-ilot.jpg"
+                  alt="Îlot central cuisine Solid Surface"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Argument clé en mains */}
+      <section className="py-16 bg-gris-fume">
+        <div className="container-site max-w-3xl mx-auto text-center">
+          <p className="overline-text mb-6">Une cuisine complète, un seul devis</p>
+          <p className="font-inter font-light text-gris-texte text-sm leading-relaxed">
+            Vous ne commandez pas séparément le plan de travail, les meubles et la pose.
+            Notre atelier conçoit l&apos;ensemble en cohérence — proportions, alignements, finitions.
+            Vous recevez votre cuisine clé en main, posée par les mêmes mains qui l&apos;ont fabriquée.
+          </p>
+        </div>
+      </section>
+
       {/* Réalisations */}
       {realisationsCuisine.length > 0 && (
-        <section className="section-padding bg-gris-fume">
+        <section className="section-padding bg-noir-profond">
           <div className="container-site">
             <SectionTitle
               overline="Réalisations"

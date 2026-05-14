@@ -82,6 +82,20 @@ export default function RealisationPage({ params }: Props) {
             </div>
 
             <div>
+              {r.prestations.length > 0 && (
+                <>
+                  <p className="overline-text mb-6">Prestations réalisées</p>
+                  <ul className="space-y-3 mb-10">
+                    {r.prestations.map((p) => (
+                      <li key={p} className="flex items-start gap-3 pb-3 border-b border-gris-fume/40">
+                        <span className="text-or-champagne mt-1 shrink-0 text-xs">—</span>
+                        <span className="font-inter font-light text-sm text-gris-texte leading-snug">{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
               <p className="overline-text mb-6">Matériaux</p>
               <ul className="space-y-3">
                 {r.materiaux.map((m) => (

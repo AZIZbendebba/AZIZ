@@ -32,19 +32,25 @@ export default function AboutBrief() {
 
         <GoldDivider className="mb-8 opacity-40" />
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-inter font-light text-gris-texte text-base leading-relaxed"
+          className="space-y-5 text-left"
         >
-          Depuis plus de 15 ans, nous accompagnons les familles tunisiennes, les couples
-          qui s&apos;installent et les professionnels qui exigent le meilleur. Notre atelier à
-          Tunis fabrique chaque pièce sur mesure, sans joint visible, sans compromis sur la
-          qualité. Le Solid Surface n&apos;est pas un matériau ordinaire. Il se répare, se façonne,
-          se renouvelle. C&apos;est un investissement pour des décennies, au service de votre quotidien.
-        </motion.p>
+          <p className="font-inter font-light text-gris-texte text-sm leading-relaxed">
+            Depuis plus de 15 ans, nous accompagnons les familles tunisiennes, les couples
+            qui s&apos;installent et les professionnels qui exigent le meilleur. Notre atelier
+            à Tunis conçoit et fabrique chaque pièce sur mesure — surfaces Solid Surface
+            et mobilier intégré — sans joint visible, sans compromis sur la qualité.
+          </p>
+          <p className="font-inter font-light text-gris-texte text-sm leading-relaxed">
+            Notre force : tout faire sous le même toit. Du plan de travail aux caissons,
+            des vasques aux meubles vasque, des paillasses aux rangements médicaux —
+            vous avez un seul interlocuteur, un seul devis, une seule équipe.
+          </p>
+        </motion.div>
       </div>
     </section>
   )

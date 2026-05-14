@@ -8,6 +8,7 @@ export type Realisation = {
   annee: string
   description: string
   materiaux: string[]
+  prestations: string[]
   images: string[]
   imageHero: string
   featured: boolean
@@ -24,6 +25,13 @@ export const realisations: Realisation[] = [
     annee: '2023',
     description: 'Comptoirs et surfaces de travail sur mesure en Solid Surface pour un espace pâtisserie exigeant en termes d\'hygiène et d\'esthétique.',
     materiaux: ['Corian® Glacier White', 'Corian® Bisque'],
+    prestations: [
+      'Comptoir d\'accueil Solid Surface sans joint',
+      'Surfaces de travail antibactériennes',
+      'Mobilier de service sur mesure',
+      'Étagères et rangements intégrés',
+      'Pose complète par nos équipes',
+    ],
     images: ['/images/cuisine-hachicha.jpg'],
     imageHero: '/images/cuisine-hachicha.jpg',
     featured: true,
@@ -38,6 +46,13 @@ export const realisations: Realisation[] = [
     annee: '2023',
     description: 'Un îlot central en Solid Surface noir mat, massif et sculptural, au cœur d\'une cuisine aux volumes épurés.',
     materiaux: ['Corian® Deep Nocturne', 'Laque bi-composant'],
+    prestations: [
+      'Plans de travail Corian sans joint',
+      'Îlot central intégré (structure + plan)',
+      'Caissons et façades sur mesure',
+      'Crédence Corian coordonnée',
+      'Pose complète par nos équipes',
+    ],
     images: ['/images/cuisine-ilot.jpg'],
     imageHero: '/images/cuisine-ilot.jpg',
     featured: true,
@@ -52,6 +67,12 @@ export const realisations: Realisation[] = [
     annee: '2023',
     description: 'Plan de travail monolithique en Solid Surface blanc veiné — raccords invisibles, continuité parfaite sur plusieurs mètres.',
     materiaux: ['Corian® Calacatta Nuvo'],
+    prestations: [
+      'Plan de travail Solid Surface blanc veiné',
+      'Crédence intégrée coordonnée',
+      'Mobilier bas sur mesure',
+      'Soudures et raccords invisibles',
+    ],
     images: ['/images/cuisine-blanc-vene.jpg'],
     imageHero: '/images/cuisine-blanc-vene.jpg',
     featured: true,
@@ -66,6 +87,12 @@ export const realisations: Realisation[] = [
     annee: '2022',
     description: 'Plan de toilette avec vasque intégrée sans joint, finition satinée en Solid Surface beige chaud.',
     materiaux: ['Corian® Linen', 'Robinetterie laiton brossé'],
+    prestations: [
+      'Plan de toilette Solid Surface continu',
+      'Vasque thermoformée intégrée sans joint',
+      'Meuble vasque sur mesure (suspendu)',
+      'Colonne de rangement assortie',
+    ],
     images: ['/images/plan-travail-beige.jpg'],
     imageHero: '/images/plan-travail-beige.jpg',
     featured: false,
@@ -80,6 +107,13 @@ export const realisations: Realisation[] = [
     annee: '2024',
     description: 'Bureau monolithique et mobilier de direction sur mesure en Solid Surface gris anthracite — sobre, massif, durable.',
     materiaux: ['Corian® Basalt Gray', 'Acier inoxydable mat'],
+    prestations: [
+      'Bureau de direction Solid Surface monolithique',
+      'Bibliothèque intégrée sur mesure',
+      'Rangements coordonnés',
+      'Habillage mural Solid Surface',
+      'Pose et finitions par nos équipes',
+    ],
     images: ['/images/cuisine-grise.jpg'],
     imageHero: '/images/cuisine-grise.jpg',
     featured: false,
@@ -94,6 +128,10 @@ export const realisations: Realisation[] = [
     annee: '2023',
     description: 'Détail de raccord et de finition — l\'invisible qui fait toute la différence.',
     materiaux: ['Corian® Clam Shell'],
+    prestations: [
+      'Raccords invisibles et soudures',
+      'Finition ponçage et polissage',
+    ],
     images: ['/images/corian-detail.jpg'],
     imageHero: '/images/corian-detail.jpg',
     featured: false,

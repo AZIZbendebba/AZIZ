@@ -76,8 +76,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="font-inter font-light text-gris-texte max-w-xl mb-12 text-base md:text-lg leading-relaxed"
           >
-            Cuisines, salles de bain et espaces professionnels en Solid Surface
-            sur mesure. Fabriqués à Tunis, livrés partout en Tunisie.
+            Cuisines, salles de bain et espaces professionnels — surfaces Solid Surface
+            et mobilier sur mesure, fabriqués sous le même toit à Tunis.
           </motion.p>
 
           <motion.div

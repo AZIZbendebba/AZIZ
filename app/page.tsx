@@ -3,6 +3,7 @@ import Hero from '@/components/sections/Hero'
 import UniversGrid from '@/components/sections/UniversGrid'
 import Piliers from '@/components/sections/Piliers'
 import AboutBrief from '@/components/sections/AboutBrief'
+import NotreDifference from '@/components/sections/NotreDifference'
 import Matiere from '@/components/sections/Matiere'
 import Realisations from '@/components/sections/Realisations'
 import Temoignages from '@/components/sections/Temoignages'
@@ -22,6 +23,7 @@ export default function HomePage() {
       <UniversGrid />
       <Piliers />
       <AboutBrief />
+      <NotreDifference />
       <Matiere />
       <Realisations />
       <Temoignages />
