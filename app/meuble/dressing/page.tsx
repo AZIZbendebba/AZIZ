@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import SectionTitle from '@/components/shared/SectionTitle'
 import GoldDivider from '@/components/shared/GoldDivider'
 import ContactCTA from '@/components/sections/ContactCTA'
@@ -25,8 +26,8 @@ export default function DressingPage() {
       <MeubleHero
         overline="Meuble dressing"
         titre={<>Le rangement<br /><span className="text-or-champagne">comme architecture.</span></>}
-        image="/images/placeholder-dressing-hero.jpg"
-        imageAlt="Dressing sur mesure — Solid Surface Tunisie"
+        image="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1920&q=80"
+        imageAlt="Dressing sur mesure walk-in closet"
       />
 
       {/* Intro */}
@@ -61,11 +62,14 @@ export default function DressingPage() {
       <section className="section-padding bg-gris-fume" id="dressing-ferme">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* 📸 PHOTO À FOURNIR — dressing fermé avec façades */}
-            <div className="relative aspect-[4/5] bg-noir-profond/60 flex items-center justify-center order-2 lg:order-1">
-              <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-gris-texte/40 text-center px-4">
-                Photo à fournir<br />Dressing fermé
-              </p>
+            <div className="relative aspect-[4/5] overflow-hidden order-2 lg:order-1">
+              <Image
+                src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80"
+                alt="Dressing fermé avec façades laquées"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <p className="overline-text mb-6">Configuration 01</p>
@@ -135,11 +139,14 @@ export default function DressingPage() {
                 </ul>
               </div>
             </div>
-            {/* 📸 PHOTO À FOURNIR — dressing ouvert avec structure apparente */}
-            <div className="relative aspect-[4/5] bg-gris-fume/40 flex items-center justify-center">
-              <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-gris-texte/40 text-center px-4">
-                Photo à fournir<br />Dressing ouvert
-              </p>
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=800&q=80"
+                alt="Dressing ouvert avec structure apparente et îlot"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
           </div>
         </div>

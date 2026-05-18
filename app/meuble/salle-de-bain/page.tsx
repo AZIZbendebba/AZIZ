@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import SectionTitle from '@/components/shared/SectionTitle'
 import GoldDivider from '@/components/shared/GoldDivider'
 import ContactCTA from '@/components/sections/ContactCTA'
@@ -58,8 +59,8 @@ export default function SalleDeBainPage() {
       <MeubleHero
         overline="Meuble salle de bain"
         titre={<>La salle de bain,<br /><span className="text-or-champagne">surface et structure en harmonie.</span></>}
-        image="/images/placeholder-sdb-hero.jpg"
-        imageAlt="Meuble salle de bain sur mesure — Solid Surface Tunisie"
+        image="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1920&q=80"
+        imageAlt="Salle de bain moderne avec meuble vasque sur mesure"
       />
 
       {/* Intro */}
@@ -110,7 +111,7 @@ export default function SalleDeBainPage() {
               </div>
             ))}
 
-            {/* Encart Solid Surface accent */}
+            {/* Encart Solid Surface */}
             <div className="bg-noir-profond border border-or-champagne/30 p-8 lg:p-10 flex flex-col justify-between md:col-span-2 lg:col-span-1">
               <div>
                 <p className="overline-text mb-6">Pourquoi le Solid Surface ?</p>
@@ -133,14 +134,18 @@ export default function SalleDeBainPage() {
         </div>
       </section>
 
-      {/* 📸 PHOTO À FOURNIR — section visuelle salle de bain */}
+      {/* Section visuelle */}
       <section className="section-padding bg-noir-profond">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="relative aspect-[4/3] bg-gris-fume/40 flex items-center justify-center">
-              <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-gris-texte/40 text-center px-4">
-                Photo à fournir<br />Réalisation salle de bain
-              </p>
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+                alt="Meuble vasque salle de bain sur mesure avec plan Solid Surface"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
             <div>
               <p className="overline-text mb-6">Conception sur mesure</p>

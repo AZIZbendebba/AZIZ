@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
 import SectionTitle from '@/components/shared/SectionTitle'
@@ -20,13 +21,18 @@ export const metadata: Metadata = {
   ],
 }
 
+const gammeImages: Record<string, string> = {
+  city: 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&w=800&q=80',
+  charme: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80',
+}
+
 export default function CuisinePage() {
   return (
     <>
       <MeubleHero
         overline="Meuble cuisine"
         titre={<>La cuisine,<br /><span className="text-or-champagne">entre matière et menuiserie.</span></>}
-        image="/images/placeholder-cuisine-hero.jpg"
+        image="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1920&q=80"
         imageAlt="Cuisine sur mesure fabriquée par Solid Surface Tunisie"
       />
 
@@ -45,9 +51,9 @@ export default function CuisinePage() {
                 sur un caisson en MDF 18 mm et une quincaillerie Blum exclusivement.
               </p>
               <p>
-                Ce qui change d'une gamme à l'autre, c'est la façade, la finition et la génération de quincaillerie.
-                Ce qui ne change pas : la fabrication sur mesure, le plan de travail Solid Surface sans joint,
-                et un seul interlocuteur du caisson à la pose.
+                Ce qui change d'une gamme à l'autre, c'est la façade, la finition et la génération
+                de quincaillerie. Ce qui ne change pas : la fabrication sur mesure, le plan de travail
+                Solid Surface sans joint, et un seul interlocuteur du caisson à la pose.
               </p>
             </div>
           </div>
@@ -65,11 +71,15 @@ export default function CuisinePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-noir-profond/20 mt-4">
             {gammesCuisine.map((gamme) => (
               <div key={gamme.id} className="bg-noir-profond flex flex-col">
-                {/* 📸 PHOTO À FOURNIR — photo de la gamme {gamme.nom} */}
-                <div className="h-64 bg-gris-fume/60 flex items-center justify-center relative">
-                  <p className="font-inter text-[0.6rem] tracking-[0.15em] uppercase text-gris-texte/40 text-center px-4">
-                    Photo à fournir<br />Gamme {gamme.nom}
-                  </p>
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={gammeImages[gamme.id]}
+                    alt={`Cuisine gamme ${gamme.nom}`}
+                    fill
+                    className="object-cover opacity-70"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-noir-profond/60 to-transparent" />
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col flex-1">
                   <p className="overline-text mb-3">{gamme.gamme}</p>
@@ -118,16 +128,14 @@ export default function CuisinePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gris-fume/20">
-              {/* Caisson */}
               <SpecCard titre="Caisson">
                 <SpecLine label="Matière" value={`${gamme.caisson.matiere} ${gamme.caisson.epaisseur}`} />
                 <SpecLine label="Finition" value={gamme.caisson.finition} />
                 <SpecLine label="Assemblage" value={gamme.caisson.assemblage} />
               </SpecCard>
 
-              {/* Façades */}
               <SpecCard titre="Façades">
-                <SpecLine label="Support" value={`${gamme.facades.matiere}`} />
+                <SpecLine label="Support" value={gamme.facades.matiere} />
                 <div className="pt-3">
                   <p className="font-inter text-[0.6rem] tracking-[0.1em] uppercase text-gris-texte/60 mb-3">
                     Options disponibles
@@ -141,27 +149,23 @@ export default function CuisinePage() {
                 </div>
               </SpecCard>
 
-              {/* Quincaillerie */}
               <SpecCard titre="Quincaillerie">
                 <SpecLine label="Charnières" value={gamme.quincaillerie.charnieres} />
                 <SpecLine label="Tiroirs" value={gamme.quincaillerie.tiroirs} />
               </SpecCard>
 
-              {/* Pieds & plinthe */}
               <SpecCard titre="Pieds & plinthe">
                 <SpecLine label="Matière" value={gamme.pieds.matiere} />
                 <SpecLine label="Hauteur" value={gamme.pieds.hauteur} />
                 <SpecLine label="Plinthe" value={gamme.pieds.plinthe} />
               </SpecCard>
 
-              {/* Plan de travail */}
               <SpecCard titre="Plan de travail">
                 <p className="font-inter font-light text-sm text-gris-texte leading-relaxed">
                   {gamme.planDeTravail}
                 </p>
               </SpecCard>
 
-              {/* CTA inline */}
               <div className={`p-8 lg:p-10 flex flex-col justify-between ${gi % 2 === 0 ? 'bg-noir-profond' : 'bg-noir-pur'} border border-or-champagne/20`}>
                 <div>
                   <p className="overline-text mb-4">Votre projet</p>
