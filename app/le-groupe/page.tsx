@@ -8,7 +8,7 @@ import ContactCTA from '@/components/sections/ContactCTA'
 export const metadata: Metadata = {
   title: 'Notre Groupe',
   description:
-    'Solid Surface Tunisie et Techno-Logika SA — une entreprise familiale de 20 ans, repositionnée par la nouvelle génération comme une marque moderne et premium.',
+    'Solid Surface Tunisie et Techno-Logika SA — une entreprise familiale fondée en 2006, repositionnée par la nouvelle génération comme une marque moderne et premium.',
 }
 
 const valeurs = [
@@ -45,7 +45,7 @@ export default function LeGroupePage() {
             className="font-cormorant font-light text-blanc-pur"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.1 }}
           >
-            Vingt ans de matière.
+            Depuis 2006, la matière.
             <br />
             <span className="text-or-champagne">Une nouvelle génération.</span>
           </h1>
@@ -63,7 +63,7 @@ export default function LeGroupePage() {
               />
               <div className="space-y-6 font-inter font-light text-gris-texte text-sm leading-relaxed">
                 <p>
-                  Fondée en 2004 par la famille Hachicha, Solid Surface Tunisie naît
+                  Fondée en 2006 par la famille Hachicha, Solid Surface Tunisie naît
                   d&apos;une conviction simple : la Tunisie mérite des surfaces et des meubles
                   qui rivalisent avec ce qui se fait de mieux en Europe.
                 </p>

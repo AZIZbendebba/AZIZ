@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import GoldDivider from '@/components/shared/GoldDivider'
 
 const chiffres = [
-  { valeur: '20+', label: 'ans d\'expertise', detail: 'Fondée en 2004, repositionnée par la nouvelle génération.' },
+  { valeur: 'Depuis 2006', label: 'au service du sur-mesure', detail: 'Fondée en 2006, repositionnée par la nouvelle génération.' },
   { valeur: '500+', label: 'projets réalisés', detail: 'Du studio de 40 m² à la clinique de 3 000 m².' },
   { valeur: '6', label: 'secteurs d\'activité', detail: 'Résidentiel, hôtellerie, healthcare, commercial, institutionnel, tertiaire.' },
   { valeur: '2', label: 'entités complémentaires', detail: 'Solid Surface Tunisie + Techno-Logika SA.' },
