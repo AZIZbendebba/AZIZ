@@ -26,8 +26,8 @@ export default function DressingPage() {
       <MeubleHero
         overline="Meuble dressing"
         titre={<>Le rangement<br /><span className="text-or-champagne">comme architecture.</span></>}
-        image="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1920&q=80"
-        imageAlt="Dressing sur mesure walk-in closet"
+        image="/images/dressing-hero-walkin.jpg"
+        imageAlt="Walk-in dressing sur mesure avec coiffeuse centrale et LED intégrées"
       />
 
       {/* Intro */}
@@ -64,8 +64,8 @@ export default function DressingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="relative aspect-[4/5] overflow-hidden order-2 lg:order-1">
               <Image
-                src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80"
-                alt="Dressing fermé avec façades laquées"
+                src="/images/dressing-ferme-interieur.jpg"
+                alt="Dressing fermé sur mesure — intérieur avec tiges, étagères et LED intégrées"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
