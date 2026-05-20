@@ -8,7 +8,7 @@ import ContactCTA from '@/components/sections/ContactCTA'
 export const metadata: Metadata = {
   title: 'Notre Groupe',
   description:
-    'Solid Surface Tunisie et Techno-Logika SA — une entreprise familiale de 20 ans, repositionnée par la nouvelle génération comme une marque moderne et premium.',
+    'Solid Surface Tunisie , une entreprise familiale de 15 ans, repositionnée par la nouvelle génération comme une marque moderne et premium.',
 }
 
 const valeurs = [
@@ -18,7 +18,7 @@ const valeurs = [
   },
   {
     titre: 'L\'intégral sur mesure',
-    texte: 'Aucun projet ne ressemble à un autre. Nous ne produisons pas en série — nous concevons à la demande, pour chaque lieu, pour chaque usage.',
+    texte: 'Aucun projet ne ressemble à un autre. Nous ne produisons pas en série , nous concevons à la demande, pour chaque lieu, pour chaque usage.',
   },
   {
     titre: 'La durée dans le temps',
@@ -42,7 +42,7 @@ export default function LeGroupePage() {
         <div className="relative z-10 container-site pb-16">
           <p className="overline-text mb-4">Notre groupe</p>
           <h1
-            className="font-cormorant font-light text-blanc-pur"
+            className="font-serif font-light text-blanc-pur"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.1 }}
           >
             Vingt ans de matière.
@@ -61,7 +61,7 @@ export default function LeGroupePage() {
                 overline="Notre histoire"
                 title="Nés de la matière,&#10;portés par l'ambition."
               />
-              <div className="space-y-6 font-inter font-light text-gris-texte text-sm leading-relaxed">
+              <div className="space-y-6 font-sans font-light text-blanc-pur/60 text-sm leading-relaxed">
                 <p>
                   Fondée en 2004 par la famille Hachicha, Solid Surface Tunisie naît
                   d&apos;une conviction simple : la Tunisie mérite des surfaces et des meubles
@@ -69,14 +69,14 @@ export default function LeGroupePage() {
                 </p>
                 <p>
                   En deux décennies, l&apos;atelier grandit. Les machines évoluent. La commande
-                  numérique remplace le tracé à la règle. Les chantiers s&apos;élargissent —
+                  numérique remplace le tracé à la règle. Les chantiers s&apos;élargissent ,
                   des villas de La Marsa aux hôtels de Djerba, des cliniques de Sfax aux
                   sièges sociaux de Tunis.
                 </p>
                 <p>
                   Aujourd&apos;hui, la deuxième génération reprend le flambeau avec une ambition
                   claire : faire de Solid Surface Tunisie une référence régionale du
-                  sur-mesure premium — sans renoncer à ce qui a fait sa réputation :
+                  sur-mesure premium , sans renoncer à ce qui a fait sa réputation :
                   la précision du geste, la qualité de la matière, la parole tenue.
                 </p>
               </div>
@@ -86,15 +86,15 @@ export default function LeGroupePage() {
               <div className="aspect-[4/5] overflow-hidden">
                 <Image
                   src="/images/cuisine-hachicha.jpg"
-                  alt="Réalisation signature — Maison Hachicha, La Marsa"
+                  alt="Réalisation signature , Maison Hachicha, La Marsa"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-noir-profond p-8 border border-gris-fume max-w-xs hidden lg:block">
-                <p className="font-cormorant font-light italic text-blanc-pur/70 text-xl leading-snug">
-                  « La matière ne ment pas. Elle révèle tout — la précision du geste,
+                <p className="font-serif font-light italic text-blanc-pur/70 text-xl leading-snug">
+                  « La matière ne ment pas. Elle révèle tout , la précision du geste,
                   la rigueur de la conception. »
                 </p>
               </div>
@@ -115,11 +115,11 @@ export default function LeGroupePage() {
             {valeurs.map((v, i) => (
               <div key={v.titre} className="bg-noir-profond p-10 lg:p-12">
                 <div className="w-8 h-8 border border-or-champagne flex items-center justify-center mb-8">
-                  <span className="font-cormorant text-or-champagne text-lg">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-serif text-or-champagne text-lg">{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <GoldDivider variant="left" className="mb-6" />
-                <h3 className="font-cormorant font-light text-blanc-pur text-2xl mb-4">{v.titre}</h3>
-                <p className="font-inter font-light text-sm text-gris-texte leading-relaxed">{v.texte}</p>
+                <h3 className="font-serif font-light text-blanc-pur text-2xl mb-4">{v.titre}</h3>
+                <p className="font-sans font-light text-sm text-blanc-pur/60 leading-relaxed">{v.texte}</p>
               </div>
             ))}
           </div>
@@ -143,9 +143,9 @@ export default function LeGroupePage() {
                 img: '/images/plan-travail-beige.jpg',
               },
               {
-                nom: 'Techno-Logika SA',
+                nom: 'Solid Surface Tunisie',
                 role: 'Mobilier sur mesure',
-                desc: 'Atelier de menuiserie d\'agencement. Cuisines, salle de bain, dressings, bibliothèques, mobilier de bureau — chaque meuble est conçu pour s\'articuler parfaitement avec les surfaces.',
+                desc: 'Atelier de menuiserie d\'agencement. Cuisines, salle de bain, dressings, bibliothèques, mobilier de bureau , chaque meuble est conçu pour s\'articuler parfaitement avec les surfaces.',
                 img: '/images/cuisine-grise.jpg',
               },
             ].map((entite) => (
@@ -155,8 +155,8 @@ export default function LeGroupePage() {
                 </div>
                 <div className="p-8 bg-blanc-creme">
                   <p className="overline-text mb-3 text-or-champagne">{entite.role}</p>
-                  <h3 className="font-cormorant font-light text-noir-profond text-2xl mb-4">{entite.nom}</h3>
-                  <p className="font-inter font-light text-sm text-gris-fume/70 leading-relaxed">{entite.desc}</p>
+                  <h3 className="font-serif font-light text-noir-profond text-2xl mb-4">{entite.nom}</h3>
+                  <p className="font-sans font-light text-sm text-gris-fume/70 leading-relaxed">{entite.desc}</p>
                 </div>
               </div>
             ))}

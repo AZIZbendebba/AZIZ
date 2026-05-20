@@ -6,56 +6,57 @@ import { siteConfig } from '@/lib/data/seo'
 
 const navColumns = [
   {
-    heading: 'Le Groupe',
+    heading: 'Surfaces sur mesure',
     links: [
-      { href: '/le-groupe', label: 'Notre histoire' },
-      { href: '/savoir-faire', label: 'Savoir-faire' },
-      { href: '/savoir-faire#solid-surface', label: 'Solid Surface' },
-      { href: '/savoir-faire#mobilier', label: 'Mobilier sur mesure' },
+      { href: '/cuisine', label: 'Cuisine Corian®' },
+      { href: '/salle-de-bain', label: 'Salle de bain' },
+      { href: '/espace-sante', label: 'Espace santé' },
+      { href: '/espace-bureautique', label: 'Espace bureautique' },
+      { href: '/professionnels', label: 'Pour les professionnels' },
     ],
   },
   {
-    heading: 'Secteurs',
+    heading: 'Espace meuble',
     links: [
-      { href: '/secteurs/residentiel', label: 'Résidentiel' },
-      { href: '/secteurs/hotellerie', label: 'Hôtellerie' },
-      { href: '/secteurs/healthcare', label: 'Healthcare' },
-      { href: '/secteurs/commercial', label: 'Commercial' },
-      { href: '/secteurs/institutionnel', label: 'Institutionnel' },
+      { href: '/espace-meuble', label: 'Présentation' },
+      { href: '/espace-meuble/cuisine', label: 'Cuisine' },
+      { href: '/espace-meuble/dressing', label: 'Dressing' },
+      { href: '/espace-meuble/meuble-salle-de-bain', label: 'Meuble salle de bain' },
     ],
   },
   {
-    heading: 'Réalisations',
+    heading: 'Entreprise',
     links: [
-      { href: '/realisations', label: 'Toutes les réalisations' },
-      { href: '/realisations?secteur=residentiel', label: 'Résidentiel' },
-      { href: '/realisations?secteur=hotellerie', label: 'Hôtellerie' },
-      { href: '/contact', label: 'Demander un devis' },
+      { href: '/realisations', label: 'Nos réalisations' },
+      { href: '/a-propos', label: 'À propos' },
+      { href: '/contact', label: 'Contact' },
+      { href: '/mentions-legales', label: 'Mentions légales' },
     ],
   },
 ]
 
 export default function Footer() {
   return (
-    <footer className="bg-noir-pur" aria-label="Pied de page">
+    <footer className="bg-black" aria-label="Pied de page">
       <GoldDivider />
 
       <div className="container-site pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+          {/* Colonne marque */}
           <div className="lg:col-span-2">
             <Logo variant="blanc" className="mb-6" />
-            <p className="font-inter font-light text-gris-texte text-sm leading-relaxed mb-6 max-w-sm">
-              Deux entités, une seule promesse — concevoir, fabriquer et installer
-              chaque surface et chaque meuble de votre lieu de vie,
-              du plan à la pose.
+            <p className="font-sans font-light text-sm leading-relaxed mb-6 max-w-sm text-blanc-pur/70">
+              Deux savoir-faire complémentaires au service de vos espaces : fabrication
+              de surfaces Solid Surface et Corian® ainsi que de mobilier sur mesure,
+              de la conception à la pose.
             </p>
             <div className="flex items-center gap-4 mt-6">
               <a
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gris-texte hover:text-or-champagne transition-colors duration-300"
-                aria-label="Instagram"
+                className="text-blanc-pur/50 hover:text-or-champagne transition-colors duration-300"
+                aria-label="Instagram Solid Surface Tunisie"
               >
                 <Instagram size={18} strokeWidth={1.5} />
               </a>
@@ -63,8 +64,8 @@ export default function Footer() {
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gris-texte hover:text-or-champagne transition-colors duration-300"
-                aria-label="LinkedIn"
+                className="text-blanc-pur/50 hover:text-or-champagne transition-colors duration-300"
+                aria-label="LinkedIn Solid Surface Tunisie"
               >
                 <Linkedin size={18} strokeWidth={1.5} />
               </a>
@@ -72,14 +73,15 @@ export default function Footer() {
                 href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gris-texte hover:text-or-champagne transition-colors duration-300"
-                aria-label="Facebook"
+                className="text-blanc-pur/50 hover:text-or-champagne transition-colors duration-300"
+                aria-label="Facebook Solid Surface Tunisie"
               >
                 <Facebook size={18} strokeWidth={1.5} />
               </a>
             </div>
           </div>
 
+          {/* Colonnes navigation */}
           {navColumns.map((col) => (
             <div key={col.heading}>
               <h3 className="overline-text mb-6">{col.heading}</h3>
@@ -88,7 +90,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-inter font-light text-sm text-gris-texte hover:text-blanc-pur transition-colors duration-300"
+                      className="font-sans font-light text-sm text-blanc-pur/60 hover:text-blanc-pur transition-colors duration-300"
                     >
                       {link.label}
                     </Link>
@@ -99,10 +101,11 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 py-10 border-t border-gris-fume/30 border-b border-gris-fume/30">
+        {/* Coordonnées */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 py-10 border-t border-gris-fume/30 border-b border-gris-fume/30">
           <div className="flex items-start gap-3">
             <MapPin size={16} strokeWidth={1.5} className="text-or-champagne mt-0.5 shrink-0" />
-            <p className="font-inter font-light text-sm text-gris-texte">
+            <p className="font-sans font-light text-sm text-blanc-pur/70">
               {siteConfig.address.street}<br />
               {siteConfig.address.city}, {siteConfig.address.country}
             </p>
@@ -110,34 +113,44 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <Phone size={16} strokeWidth={1.5} className="text-or-champagne shrink-0" />
             <a
-              href={`tel:${siteConfig.address.phone}`}
-              className="font-inter font-light text-sm text-gris-texte hover:text-blanc-pur transition-colors"
+              href={siteConfig.address.phoneHref}
+              className="font-sans font-light text-sm text-blanc-pur/70 hover:text-blanc-pur transition-colors"
             >
               {siteConfig.address.phone}
             </a>
           </div>
           <div className="flex items-center gap-3">
+            <Mail size={16} strokeWidth={1.5} className="text-or-champagne shrink-0" />
+            <a
+              href={`mailto:${siteConfig.address.emails.com}`}
+              className="font-sans font-light text-sm text-blanc-pur/70 hover:text-blanc-pur transition-colors"
+            >
+              {siteConfig.address.emails.com}
+            </a>
+          </div>
+          <div className="flex items-center gap-3">
             <Clock size={16} strokeWidth={1.5} className="text-or-champagne shrink-0" />
-            <p className="font-inter font-light text-sm text-gris-texte">
-              Lun – Ven : 8h30 – 18h00
+            <p className="font-sans font-light text-sm text-blanc-pur/70">
+              {siteConfig.hours}
             </p>
           </div>
         </div>
 
+        {/* Bas de footer */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-inter font-light text-xs text-gris-texte/50">
-            © {new Date().getFullYear()} Solid Surface Tunisie — Techno-Logika SA. Tous droits réservés.
+          <p className="font-sans font-light text-xs text-blanc-pur/30">
+            © {new Date().getFullYear()} Solid Surface Tunisie. Tous droits réservés.
           </p>
           <div className="flex items-center gap-6">
             <Link
               href="/mentions-legales"
-              className="font-inter font-light text-xs text-gris-texte/50 hover:text-gris-texte transition-colors"
+              className="font-sans font-light text-xs text-blanc-pur/30 hover:text-blanc-pur/60 transition-colors"
             >
               Mentions légales
             </Link>
             <Link
               href="/politique-confidentialite"
-              className="font-inter font-light text-xs text-gris-texte/50 hover:text-gris-texte transition-colors"
+              className="font-sans font-light text-xs text-blanc-pur/30 hover:text-blanc-pur/60 transition-colors"
             >
               Politique de confidentialité
             </Link>

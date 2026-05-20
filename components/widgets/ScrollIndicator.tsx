@@ -11,7 +11,7 @@ export default function ScrollIndicator() {
       className="flex flex-col items-center gap-3"
       aria-hidden="true"
     >
-      <span className="font-inter text-[0.55rem] tracking-[0.2em] uppercase text-gris-texte">
+      <span className="font-sans text-[0.55rem] tracking-[0.2em] uppercase text-blanc-pur/60">
         Défiler
       </span>
       <div className="w-px h-12 bg-gris-fume overflow-hidden relative">

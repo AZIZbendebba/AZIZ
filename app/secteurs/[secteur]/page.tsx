@@ -9,14 +9,15 @@ import GoldDivider from '@/components/shared/GoldDivider'
 import SectionTitle from '@/components/shared/SectionTitle'
 import ContactCTA from '@/components/sections/ContactCTA'
 
-type Props = { params: { secteur: string } }
+type Props = { params: Promise<{ secteur: string }> }
 
 export async function generateStaticParams() {
   return secteurs.map((s) => ({ secteur: s.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const secteur = getSecteurBySlug(params.secteur)
+  const { secteur: slug } = await params
+  const secteur = getSecteurBySlug(slug)
   if (!secteur) return {}
   return {
     title: secteur.nom,
@@ -24,12 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function SecteurPage({ params }: Props) {
-  const secteur = getSecteurBySlug(params.secteur)
+export default async function SecteurPage({ params }: Props) {
+  const { secteur: slug } = await params
+  const secteur = getSecteurBySlug(slug)
   if (!secteur) notFound()
 
-  const realisations = getRealisationsBySecteur(params.secteur)
-  const autreSecteurs = secteurs.filter((s) => s.slug !== params.secteur).slice(0, 4)
+  const realisations = getRealisationsBySecteur(slug)
+  const autreSecteurs = secteurs.filter((s) => s.slug !== slug).slice(0, 4)
 
   return (
     <>
@@ -40,12 +42,12 @@ export default function SecteurPage({ params }: Props) {
         <div className="relative z-10 container-site pb-16">
           <p className="overline-text mb-4">Secteur</p>
           <h1
-            className="font-cormorant font-light text-blanc-pur mb-4"
+            className="font-serif font-light text-blanc-pur mb-4"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.1 }}
           >
             {secteur.nom}
           </h1>
-          <p className="font-cormorant font-light italic text-or-champagne text-xl md:text-2xl">
+          <p className="font-serif font-light italic text-or-champagne text-xl md:text-2xl">
             {secteur.accroche}
           </p>
         </div>
@@ -58,7 +60,7 @@ export default function SecteurPage({ params }: Props) {
             <SectionTitle
               overline={secteur.description}
               title={`Notre approche\n${secteur.nom.toLowerCase()}.`}
-              description={`Pour le secteur ${secteur.nom.toLowerCase()}, nous intervenons sur l'ensemble de la chaîne — conception, fabrication, pose — avec des matériaux adaptés aux contraintes spécifiques du secteur.`}
+              description={`Pour le secteur ${secteur.nom.toLowerCase()}, nous intervenons sur l'ensemble de la chaîne , conception, fabrication, pose , avec des matériaux adaptés aux contraintes spécifiques du secteur.`}
             />
             <div>
               <p className="overline-text mb-6">Nos interventions</p>
@@ -66,7 +68,7 @@ export default function SecteurPage({ params }: Props) {
                 {secteur.details.map((detail) => (
                   <li key={detail} className="flex items-start gap-4 pb-4 border-b border-gris-fume/30">
                     <div className="w-1.5 h-1.5 bg-or-champagne shrink-0 mt-2" />
-                    <span className="font-inter font-light text-sm text-gris-texte">{detail}</span>
+                    <span className="font-sans font-light text-sm text-blanc-pur/60">{detail}</span>
                   </li>
                 ))}
               </ul>
@@ -93,8 +95,8 @@ export default function SecteurPage({ params }: Props) {
                   <Image src={r.imageHero} alt={r.titre} fill className="object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" sizes="33vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-noir-profond/80 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="overline-text mb-2 text-or-champagne/60">{r.lieu} — {r.annee}</p>
-                    <h3 className="font-cormorant font-light text-blanc-pur text-xl group-hover:text-or-champagne transition-colors">{r.titre}</h3>
+                    <p className="overline-text mb-2 text-or-champagne/60">{r.lieu} , {r.annee}</p>
+                    <h3 className="font-serif font-light text-blanc-pur text-xl group-hover:text-or-champagne transition-colors">{r.titre}</h3>
                   </div>
                 </Link>
               ))}
@@ -113,7 +115,7 @@ export default function SecteurPage({ params }: Props) {
                 <Image src={s.image} alt={s.nom} fill className="object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500" sizes="25vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-noir-profond/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <h3 className="font-cormorant font-light text-blanc-pur text-lg group-hover:text-or-champagne transition-colors">{s.nom}</h3>
+                  <h3 className="font-serif font-light text-blanc-pur text-lg group-hover:text-or-champagne transition-colors">{s.nom}</h3>
                 </div>
               </Link>
             ))}

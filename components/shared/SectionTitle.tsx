@@ -44,7 +44,7 @@ export default function SectionTitle({
 
       <h2
         className={cn(
-          'font-cormorant font-light leading-tight',
+          'font-serif font-light leading-tight',
           'text-4xl md:text-5xl lg:text-6xl',
           isLight ? 'text-noir-profond' : 'text-blanc-pur',
         )}
@@ -55,8 +55,8 @@ export default function SectionTitle({
       {description && (
         <p
           className={cn(
-            'mt-6 font-inter font-light leading-relaxed max-w-2xl text-base md:text-lg',
-            isLight ? 'text-gris-fume' : 'text-gris-texte',
+            'mt-6 font-sans font-light leading-relaxed max-w-2xl text-base md:text-lg',
+            isLight ? 'text-noir-profond/70' : 'text-blanc-pur/60',
             isCenter && 'mx-auto',
           )}
         >

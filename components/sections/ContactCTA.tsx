@@ -42,7 +42,7 @@ export default function ContactCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="font-cormorant font-light text-blanc-pur mb-8"
+              className="font-serif font-light text-blanc-pur mb-8"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 1.1 }}
             >
               Votre espace mérite
@@ -55,9 +55,9 @@ export default function ContactCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-inter font-light text-gris-texte text-base leading-relaxed mb-12 max-w-xl mx-auto"
+              className="font-sans font-light text-blanc-pur/60 text-base leading-relaxed mb-12 max-w-xl mx-auto"
             >
-              Architectes, promoteurs, particuliers — nous répondons à chaque
+              Architectes, promoteurs, particuliers , nous répondons à chaque
               demande de devis sous 48 heures. Venez découvrir nos matières au showroom.
             </motion.p>
 

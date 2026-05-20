@@ -97,8 +97,8 @@ function RealisationCard({
       <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
         <div className="flex items-end justify-between">
           <div>
-            <p className="overline-text mb-2 text-or-champagne/70">{realisation.secteur} — {realisation.lieu}</p>
-            <h3 className="font-cormorant font-light text-blanc-pur text-xl md:text-2xl group-hover:text-or-champagne transition-colors duration-300">
+            <p className="overline-text mb-2 text-or-champagne/70">{realisation.secteur} , {realisation.lieu}</p>
+            <h3 className="font-serif font-light text-blanc-pur text-xl md:text-2xl group-hover:text-or-champagne transition-colors duration-300">
               {realisation.titre}
             </h3>
           </div>

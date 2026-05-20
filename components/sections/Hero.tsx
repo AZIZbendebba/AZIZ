@@ -31,7 +31,7 @@ export default function Hero() {
       >
         <Image
           src="/images/cuisine-ilot.jpg"
-          alt="Réalisation Solid Surface Tunisie — cuisine îlot central"
+          alt="Réalisation Solid Surface Tunisie , cuisine îlot central"
           fill
           priority
           className="object-cover"
@@ -59,7 +59,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overline-text mb-8"
           >
-            Solid Surface Tunisie — Techno-Logika SA
+            Solid Surface Tunisie , Solid Surface Tunisie
           </motion.p>
 
           {/* H1 */}
@@ -67,7 +67,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-cormorant font-light text-blanc-pur leading-tight mb-6"
+            className="font-serif font-light text-blanc-pur leading-tight mb-6"
             style={{ fontSize: 'clamp(2.5rem, 6vw, 5.5rem)' }}
           >
             L&apos;émotion d&apos;une surface,
@@ -80,9 +80,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-inter font-light text-gris-texte max-w-xl mb-12 text-base md:text-lg leading-relaxed"
+            className="font-sans font-light text-blanc-pur/60 max-w-xl mb-12 text-base md:text-lg leading-relaxed"
           >
-            Conception, fabrication et installation sur mesure —
+            Conception, fabrication et installation sur mesure ,
             surfaces solides et mobilier d&apos;exception pour la maison,
             l&apos;hôtellerie et l&apos;institutionnel.
           </motion.p>
@@ -119,7 +119,7 @@ export default function Hero() {
         <div
           className="w-px h-32 opacity-40"
           style={{
-            background: 'linear-gradient(180deg, transparent, #C9A961, transparent)',
+            background: 'linear-gradient(180deg, transparent, #C9A84C, transparent)',
           }}
         />
       </div>

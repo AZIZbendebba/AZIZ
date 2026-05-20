@@ -10,7 +10,7 @@ export default function Logo({ variant = 'blanc', className = '' }: LogoProps) {
   const src = variant === 'blanc' ? '/logo-blanc.png' : '/logo-noir.png'
 
   return (
-    <Link href="/" className={`inline-flex items-center ${className}`} aria-label="Solid Surface Tunisie — Accueil">
+    <Link href="/" className={`inline-flex items-center ${className}`} aria-label="Solid Surface Tunisie , Accueil">
       <Image
         src={src}
         alt="Solid Surface Tunisie"

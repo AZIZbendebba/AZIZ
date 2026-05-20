@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 import GoldDivider from '@/components/shared/GoldDivider'
 
 const chiffres = [
-  { valeur: '20+', label: 'ans d\'expertise', detail: 'Fondée en 2004, repositionnée par la nouvelle génération.' },
+  { valeur: '15+', label: 'ans d\'expertise', detail: 'Fondée en 2004, repositionnée par la nouvelle génération.' },
   { valeur: '500+', label: 'projets réalisés', detail: 'Du studio de 40 m² à la clinique de 3 000 m².' },
   { valeur: '6', label: 'secteurs d\'activité', detail: 'Résidentiel, hôtellerie, healthcare, commercial, institutionnel, tertiaire.' },
-  { valeur: '2', label: 'entités complémentaires', detail: 'Solid Surface Tunisie + Techno-Logika SA.' },
+  { valeur: '2', label: 'entités complémentaires', detail: 'Solid Surface Tunisie.' },
 ]
 
 export default function Confiance() {
@@ -27,13 +27,13 @@ export default function Confiance() {
               className="bg-noir-pur p-10 lg:p-12 flex flex-col"
             >
               <p
-                className="font-cormorant font-light text-or-champagne mb-3 leading-none"
+                className="font-serif font-light text-or-champagne mb-3 leading-none"
                 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)' }}
               >
                 {item.valeur}
               </p>
               <p className="overline-text mb-4">{item.label}</p>
-              <p className="font-inter font-light text-xs text-gris-texte leading-relaxed mt-auto pt-4 border-t border-gris-fume/40">
+              <p className="font-sans font-light text-xs text-blanc-pur/60 leading-relaxed mt-auto pt-4 border-t border-gris-fume/40">
                 {item.detail}
               </p>
             </motion.div>

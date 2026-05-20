@@ -8,7 +8,7 @@ import { siteConfig } from '@/lib/data/seo'
 export const metadata: Metadata = {
   title: 'Contact & Devis',
   description:
-    'Demandez un devis pour votre projet sur mesure — Solid Surface, mobilier, agencement complet. Réponse sous 48 heures.',
+    'Demandez un devis pour votre projet sur mesure , Solid Surface, mobilier, agencement complet. Réponse sous 48 heures.',
 }
 
 const infos = [
@@ -21,18 +21,18 @@ const infos = [
     icon: Phone,
     label: 'Téléphone',
     value: siteConfig.address.phone,
-    href: `tel:${siteConfig.address.phone}`,
+    href: siteConfig.address.phoneHref,
   },
   {
     icon: Mail,
     label: 'Email',
-    value: siteConfig.address.email,
-    href: `mailto:${siteConfig.address.email}`,
+    value: siteConfig.address.emails.com,
+    href: `mailto:${siteConfig.address.emails.com}`,
   },
   {
     icon: Clock,
     label: 'Horaires',
-    value: 'Lun – Ven : 8h30 – 18h00 | Sam : 9h00 – 13h00',
+    value: 'Lundi au vendredi : 8h30 à 18h00',
   },
 ]
 
@@ -44,15 +44,15 @@ export default function ContactPage() {
         <div className="container-site">
           <p className="overline-text mb-6">Contact</p>
           <h1
-            className="font-cormorant font-light text-blanc-pur mb-6"
+            className="font-serif font-light text-blanc-pur mb-6"
             style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.1 }}
           >
             Parlons de
             <br />
             <span className="text-or-champagne">votre projet.</span>
           </h1>
-          <p className="font-inter font-light text-gris-texte max-w-lg leading-relaxed">
-            Architectes, promoteurs, particuliers — nous répondons à chaque demande
+          <p className="font-sans font-light text-blanc-pur/60 max-w-lg leading-relaxed">
+            Architectes, promoteurs, particuliers , nous répondons à chaque demande
             sous 48 heures ouvrées. Venez découvrir nos matières au showroom.
           </p>
         </div>
@@ -90,11 +90,11 @@ export default function ContactPage() {
                     <div>
                       <p className="overline-text mb-1">{label}</p>
                       {href ? (
-                        <a href={href} className="font-inter font-light text-sm text-gris-texte hover:text-blanc-pur transition-colors">
+                        <a href={href} className="font-sans font-light text-sm text-blanc-pur/60 hover:text-blanc-pur transition-colors">
                           {value}
                         </a>
                       ) : (
-                        <p className="font-inter font-light text-sm text-gris-texte">{value}</p>
+                        <p className="font-sans font-light text-sm text-blanc-pur/60">{value}</p>
                       )}
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
                   <MessageCircle size={16} strokeWidth={1.5} className="text-or-champagne" />
                   <p className="overline-text">WhatsApp Business</p>
                 </div>
-                <p className="font-inter font-light text-sm text-gris-texte mb-4">
+                <p className="font-sans font-light text-sm text-blanc-pur/60 mb-4">
                   Pour une réponse rapide, contactez-nous directement sur WhatsApp.
                 </p>
                 <a
@@ -126,7 +126,7 @@ export default function ContactPage() {
               <div className="mt-6 h-48 bg-gris-fume border border-gris-fume flex items-center justify-center">
                 <div className="text-center">
                   <MapPin size={24} strokeWidth={1} className="text-or-champagne mx-auto mb-2" />
-                  <p className="font-inter font-light text-xs text-gris-texte">
+                  <p className="font-sans font-light text-xs text-blanc-pur/60">
                     Zone industrielle, Tunis
                   </p>
                 </div>

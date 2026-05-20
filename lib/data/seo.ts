@@ -1,18 +1,22 @@
 export const siteConfig = {
   name: 'Solid Surface Tunisie',
   url: 'https://www.solid-surface-tunisie.com',
-  baseline: 'L\'émotion d\'une surface, la puissance d\'une création',
+  baseline: "L'émotion d'une surface, la puissance d'une création",
   description:
-    'Conception, fabrication et installation sur mesure de surfaces solides Corian et de mobilier d\'exception pour la maison, l\'hôtellerie et l\'institutionnel en Tunisie.',
+    "Fabrication sur mesure de surfaces Solid Surface et Corian® ainsi que de mobilier de cuisine, dressing et salle de bain en Tunisie. 15 ans d'expérience, 500 projets réalisés.",
   address: {
-    street: 'Zone industrielle, Rue des Artisans',
-    city: 'Tunis',
+    street: "Résidence Tej Ezzahra, Bureau n°2.5, Avenue Fattouma Bourguiba",
+    city: 'La Soukra, Tunis',
     country: 'Tunisie',
-    phone: '+216 71 000 000',
-    email: 'contact@solid-surface-tunisie.com',
-    whatsapp: '+21671000000',
+    phone: '+216 99 635 309',
+    phoneHref: 'tel:+21699635309',
+    emails: {
+      admin: 'admin@promacryl.tn',
+      com: 'gestcom@promacryl.tn',
+    },
+    whatsapp: '+21699635309',
   },
-  hours: 'Lundi – Vendredi : 8h30 – 18h00 | Samedi : 9h00 – 13h00',
+  hours: 'Lundi au vendredi : 8h30 à 18h00',
   social: {
     instagram: 'https://instagram.com/solidsurfacetunisie',
     linkedin: 'https://linkedin.com/company/solid-surface-tunisie',
@@ -27,12 +31,19 @@ export const jsonLdLocalBusiness = {
   description: siteConfig.description,
   url: siteConfig.url,
   telephone: siteConfig.address.phone,
-  email: siteConfig.address.email,
+  email: siteConfig.address.emails.admin,
   address: {
     '@type': 'PostalAddress',
     streetAddress: siteConfig.address.street,
-    addressLocality: siteConfig.address.city,
+    addressLocality: 'La Soukra',
+    addressRegion: 'Tunis',
+    postalCode: '2036',
     addressCountry: 'TN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '36.8825',
+    longitude: '10.1927',
   },
   openingHoursSpecification: [
     {
@@ -41,12 +52,7 @@ export const jsonLdLocalBusiness = {
       opens: '08:30',
       closes: '18:00',
     },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '09:00',
-      closes: '13:00',
-    },
   ],
   sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin, siteConfig.social.facebook],
+  priceRange: '$$',
 }

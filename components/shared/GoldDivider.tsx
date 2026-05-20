@@ -11,7 +11,7 @@ export default function GoldDivider({ className, variant = 'full', height = 'h-p
     return (
       <div
         className={cn('w-px bg-or-champagne opacity-60', className)}
-        style={{ background: 'linear-gradient(180deg, transparent 0%, #C9A961 30%, #C9A961 70%, transparent 100%)' }}
+        style={{ background: 'linear-gradient(180deg, transparent 0%, #C9A84C 30%, #C9A84C 70%, transparent 100%)' }}
         aria-hidden="true"
       />
     )
@@ -38,7 +38,7 @@ export default function GoldDivider({ className, variant = 'full', height = 'h-p
     <div
       className={cn('w-full', height, className)}
       style={{
-        background: 'linear-gradient(90deg, transparent 0%, #8B7340 20%, #C9A961 50%, #8B7340 80%, transparent 100%)',
+        background: 'linear-gradient(90deg, transparent 0%, #8B7340 20%, #C9A84C 50%, #8B7340 80%, transparent 100%)',
       }}
       aria-hidden="true"
     />

@@ -49,9 +49,9 @@ export default function DevisForm() {
   })
 
   const inputClass =
-    'w-full bg-transparent border border-gris-fume focus:border-or-champagne text-blanc-pur font-inter font-light text-sm px-4 py-3 outline-none transition-colors duration-300 placeholder:text-gris-texte/40'
-  const labelClass = 'block font-inter text-[0.6rem] font-500 tracking-[0.15em] uppercase text-gris-texte mb-2'
-  const errorClass = 'font-inter text-xs text-red-400 mt-1'
+    'w-full bg-transparent border border-gris-fume focus:border-or-champagne text-blanc-pur font-sans font-light text-sm px-4 py-3 outline-none transition-colors duration-300 placeholder:text-blanc-pur/30'
+  const labelClass = 'block font-sans text-[0.6rem] font-medium tracking-[0.15em] uppercase text-blanc-pur/60 mb-2'
+  const errorClass = 'font-sans text-xs text-red-400 mt-1'
 
   const nextStep = async () => {
     const fields: (keyof FormData)[][] = [
@@ -79,10 +79,10 @@ export default function DevisForm() {
         <div className="w-16 h-16 border border-or-champagne flex items-center justify-center mx-auto mb-8">
           <Check size={24} strokeWidth={1.5} className="text-or-champagne" />
         </div>
-        <h3 className="font-cormorant font-light text-blanc-pur text-3xl mb-4">
+        <h3 className="font-serif font-light text-blanc-pur text-3xl mb-4">
           Demande envoyée.
         </h3>
-        <p className="font-inter font-light text-gris-texte text-sm max-w-md mx-auto">
+        <p className="font-sans font-light text-blanc-pur/60 text-sm max-w-md mx-auto">
           Nous avons bien reçu votre demande de devis. Notre équipe vous contacte
           sous 48 heures ouvrées.
         </p>
@@ -101,18 +101,18 @@ export default function DevisForm() {
                 className={`w-8 h-8 flex items-center justify-center border transition-colors duration-300 ${
                   i <= step
                     ? 'border-or-champagne text-or-champagne'
-                    : 'border-gris-fume text-gris-texte'
+                    : 'border-gris-fume text-blanc-pur/60'
                 }`}
               >
                 {i < step ? (
                   <Check size={14} strokeWidth={1.5} />
                 ) : (
-                  <span className="font-inter text-xs">{i + 1}</span>
+                  <span className="font-sans text-xs">{i + 1}</span>
                 )}
               </div>
               <span
-                className={`font-inter text-[0.6rem] tracking-[0.12em] uppercase transition-colors duration-300 hidden sm:block ${
-                  i <= step ? 'text-or-champagne' : 'text-gris-texte/40'
+                className={`font-sans text-[0.6rem] tracking-[0.12em] uppercase transition-colors duration-300 hidden sm:block ${
+                  i <= step ? 'text-or-champagne' : 'text-blanc-pur/30'
                 }`}
               >
                 {s}
@@ -269,7 +269,7 @@ export default function DevisForm() {
                 />
               </div>
 
-              <p className="font-inter font-light text-xs text-gris-texte/50">
+              <p className="font-sans font-light text-xs text-blanc-pur/40">
                 En soumettant ce formulaire, vous acceptez que vos données soient utilisées
                 pour traiter votre demande. Consulter notre{' '}
                 <a href="/politique-confidentialite" className="text-or-champagne/70 hover:text-or-champagne transition-colors">

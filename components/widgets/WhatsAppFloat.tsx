@@ -20,7 +20,7 @@ export default function WhatsAppFloat() {
       className="fixed bottom-8 right-6 z-30 flex items-center gap-3 group"
       aria-label="Nous contacter sur WhatsApp"
     >
-      <span className="hidden md:block font-inter text-[0.6rem] tracking-[0.12em] uppercase text-gris-texte opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+      <span className="hidden md:block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-blanc-pur/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
         Écrire sur WhatsApp
       </span>
       <div className="w-12 h-12 bg-gris-fume border border-or-champagne/30 hover:border-or-champagne flex items-center justify-center transition-all duration-300 hover:bg-or-champagne/10">

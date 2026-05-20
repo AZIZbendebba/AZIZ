@@ -20,7 +20,7 @@ const proprietes = [
   },
   {
     titre: 'Réparable',
-    description: 'Une rayure, un choc — le Solid Surface se ponce et retrouve son aspect d\'origine.',
+    description: 'Une rayure, un choc , le Solid Surface se ponce et retrouve son aspect d\'origine.',
   },
 ]
 
@@ -34,7 +34,7 @@ export default function Matiere() {
             <SectionTitle
               overline="La matière"
               title="Le Solid Surface,&#10;sans compromis."
-              description="Développé par DuPont™ sous le nom Corian®, le Solid Surface est une matière minérale et résine acrylique de nouvelle génération — homogène dans toute son épaisseur, sans pore, sans joint, réparable à vie."
+              description="Développé par DuPont™ sous le nom Corian®, le Solid Surface est une matière minérale et résine acrylique de nouvelle génération , homogène dans toute son épaisseur, sans pore, sans joint, réparable à vie."
             />
 
             <div className="space-y-8 mt-8">
@@ -51,10 +51,10 @@ export default function Matiere() {
                     <div className="absolute top-0 left-0 w-full h-full bg-or-champagne" style={{ height: '40%' }} />
                   </div>
                   <div>
-                    <h3 className="font-cormorant font-light text-blanc-pur text-xl mb-2">
+                    <h3 className="font-serif font-light text-blanc-pur text-xl mb-2">
                       {prop.titre}
                     </h3>
-                    <p className="font-inter font-light text-sm text-gris-texte leading-relaxed">
+                    <p className="font-sans font-light text-sm text-blanc-pur/60 leading-relaxed">
                       {prop.description}
                     </p>
                   </div>
@@ -74,7 +74,7 @@ export default function Matiere() {
             >
               <Image
                 src="/images/plan-travail-beige.jpg"
-                alt="Détail surface Corian — texture et finition"
+                alt="Détail surface Corian , texture et finition"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -92,7 +92,7 @@ export default function Matiere() {
             >
               <Image
                 src="/images/corian-detail.jpg"
-                alt="Détail Corian — plan de travail"
+                alt="Détail Corian , plan de travail"
                 fill
                 className="object-cover"
                 sizes="256px"

@@ -1,62 +1,82 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --noir-profond: #0A0A0A;
-  --noir-pur: #000000;
-  --or-champagne: #C9A961;
-  --or-clair: #D4B776;
-  --or-sombre: #8B7340;
-  --blanc-pur: #FFFFFF;
-  --blanc-creme: #F5F2EC;
-  --gris-fume: #1A1A1A;
-  --gris-texte: #A8A8A8;
-  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
-  --font-inter: 'Inter', system-ui, sans-serif;
+@theme inline {
+  /* Polices : les variables CSS sont injectées par next/font dans <html> */
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-jost), 'Jost', system-ui, sans-serif;
+
+  /* Couleurs principales */
+  --color-noir-profond: #080808;
+  --color-noir-sec: #0F0F0F;
+  --color-noir-pur: #000000;
+  --color-gris-fume: #1A1A1A;
+  --color-or-champagne: #C9A84C;
+  --color-or-clair: #D4B968;
+  --color-or-sombre: #8B7340;
+  --color-blanc-pur: #FFFFFF;
+  --color-blanc-soft: #F5F5F5;
+  --color-blanc-creme: #F5F2EC;
+
+  /* Timings animations */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* --------------------------------------------------------------------------
+   Variables CSS globales (référencées dans les composants via var())
+   -------------------------------------------------------------------------- */
+:root {
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-jost), 'Jost', system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
 @layer base {
   html {
-    scroll-behavior: auto; /* Lenis handles this */
+    scroll-behavior: auto; /* Lenis gère le scroll */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: var(--noir-profond);
-    color: var(--blanc-pur);
-    font-family: var(--font-inter);
-    font-weight: 300;
+    background-color: #080808;
+    color: #FFFFFF;
+    font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
+    font-weight: 400;
     line-height: 1.7;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: var(--or-champagne);
-    color: var(--noir-profond);
+    background-color: #C9A84C;
+    color: #080808;
   }
 
   :focus-visible {
-    outline: 1px solid var(--or-champagne);
+    outline: 1px solid #C9A84C;
     outline-offset: 3px;
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 3px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--noir-profond);
+    background: #080808;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--or-sombre);
+    background: #8B7340;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-cormorant);
-    font-weight: 300;
+    font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
     line-height: 1.15;
+    color: #FFFFFF;
+  }
+
+  p, li, a, span {
+    color: inherit;
   }
 
   img {
@@ -64,42 +84,35 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+   Utilitaires réutilisables
+   -------------------------------------------------------------------------- */
 @layer utilities {
-  .font-cormorant {
-    font-family: var(--font-cormorant);
+  /* Typographie */
+  .font-serif {
+    font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  }
+  .font-sans {
+    font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
   }
 
-  .font-inter {
-    font-family: var(--font-inter);
-  }
-
-  .text-or {
-    color: var(--or-champagne);
-  }
-
-  .border-or {
-    border-color: var(--or-champagne);
-  }
-
-  .bg-or {
-    background-color: var(--or-champagne);
-  }
-
+  /* Surtitre */
   .overline-text {
-    font-family: var(--font-inter);
+    font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
     font-size: 0.65rem;
     font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--or-champagne);
+    color: #C9A84C;
   }
 
+  /* Mise en page */
   .section-padding {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
 
-  @screen lg {
+  @media (min-width: 1024px) {
     .section-padding {
       padding-top: 9rem;
       padding-bottom: 9rem;
@@ -114,29 +127,30 @@
     padding-right: 1.5rem;
   }
 
-  @screen sm {
+  @media (min-width: 640px) {
     .container-site {
       padding-left: 2rem;
       padding-right: 2rem;
     }
   }
 
-  @screen xl {
+  @media (min-width: 1280px) {
     .container-site {
       padding-left: 5rem;
       padding-right: 5rem;
     }
   }
 
+  /* Séparateurs dorés */
   .gold-divider {
     width: 100%;
     height: 1px;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--or-sombre) 20%,
-      var(--or-champagne) 50%,
-      var(--or-sombre) 80%,
+      #8B7340 20%,
+      #C9A84C 50%,
+      #8B7340 80%,
       transparent 100%
     );
   }
@@ -144,28 +158,30 @@
   .gold-divider-left {
     width: 60px;
     height: 1px;
-    background: var(--or-champagne);
+    background: #C9A84C;
   }
 
+  /* Boutons */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.875rem 2rem;
-    border: 1px solid var(--or-champagne);
-    color: var(--or-champagne);
-    font-family: var(--font-inter);
+    border: 1px solid #C9A84C;
+    color: #C9A84C;
+    font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
     font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1), color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+                color 400ms cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
   }
 
   .btn-primary:hover {
-    background-color: var(--or-champagne);
-    color: var(--noir-profond);
+    background-color: #C9A84C;
+    color: #080808;
   }
 
   .btn-ghost {
@@ -173,8 +189,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.875rem 2rem;
-    color: var(--blanc-pur);
-    font-family: var(--font-inter);
+    color: #FFFFFF;
+    font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
     font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.15em;
@@ -184,6 +200,34 @@
   }
 
   .btn-ghost:hover {
-    color: var(--or-champagne);
+    color: #C9A84C;
+  }
+
+  /* Animations keyframes */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scroll-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-scroll-bounce {
+    animation: scroll-bounce 2s ease-in-out infinite;
   }
 }

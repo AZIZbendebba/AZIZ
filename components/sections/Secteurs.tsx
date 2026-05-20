@@ -14,7 +14,7 @@ export default function Secteurs() {
         <SectionTitle
           overline="Nos secteurs"
           title="Partout où la matière&#10;fait la différence."
-          description="Du résidentiel haut de gamme à l'hôtellerie de luxe, du healthcare à l'institutionnel — notre savoir-faire s'adapte à chaque exigence."
+          description="Du résidentiel haut de gamme à l'hôtellerie de luxe, du healthcare à l'institutionnel , notre savoir-faire s'adapte à chaque exigence."
           theme="light"
         />
 
@@ -40,14 +40,14 @@ export default function Secteurs() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-noir-profond/90 via-transparent to-transparent" />
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                  <h3 className="font-cormorant font-light text-blanc-pur text-2xl md:text-3xl mb-2 group-hover:text-or-champagne transition-colors duration-300">
+                  <h3 className="font-serif font-light text-blanc-pur text-2xl md:text-3xl mb-2 group-hover:text-or-champagne transition-colors duration-300">
                     {secteur.nom}
                   </h3>
-                  <p className="font-inter font-light text-xs text-gris-texte mb-4">
+                  <p className="font-sans font-light text-xs text-blanc-pur/60 mb-4">
                     {secteur.description}
                   </p>
                   <div className="flex items-center gap-2 text-or-champagne opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="font-inter text-[0.6rem] tracking-[0.15em] uppercase">Découvrir</span>
+                    <span className="font-sans text-[0.6rem] tracking-[0.15em] uppercase">Découvrir</span>
                     <ArrowRight size={12} strokeWidth={1.5} />
                   </div>
                 </div>

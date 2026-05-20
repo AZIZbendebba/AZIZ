@@ -10,7 +10,7 @@ import ContactCTA from '@/components/sections/ContactCTA'
 import { siteConfig } from '@/lib/data/seo'
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — ${siteConfig.baseline}`,
+  title: `${siteConfig.name} , ${siteConfig.baseline}`,
   description: siteConfig.description,
   alternates: { canonical: siteConfig.url },
 }

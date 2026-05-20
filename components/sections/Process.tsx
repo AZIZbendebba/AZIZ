@@ -58,7 +58,7 @@ export default function Process() {
                 {/* Number */}
                 <div className="shrink-0 relative">
                   <div className="w-14 h-14 border border-or-champagne/40 flex items-center justify-center bg-blanc-creme relative z-10">
-                    <span className="font-cormorant font-light text-or-champagne text-xl">
+                    <span className="font-serif font-light text-or-champagne text-xl">
                       {etape.numero}
                     </span>
                   </div>
@@ -67,10 +67,10 @@ export default function Process() {
                 {/* Content */}
                 <div className="pt-3">
                   <GoldDivider variant="left" className="mb-5 h-px opacity-60" />
-                  <h3 className="font-cormorant font-light text-noir-profond text-2xl md:text-3xl mb-4">
+                  <h3 className="font-serif font-light text-noir-profond text-2xl md:text-3xl mb-4">
                     {etape.titre}
                   </h3>
-                  <p className="font-inter font-light text-sm text-gris-fume/70 leading-relaxed max-w-lg">
+                  <p className="font-sans font-light text-sm text-gris-fume/70 leading-relaxed max-w-lg">
                     {etape.description}
                   </p>
                 </div>
