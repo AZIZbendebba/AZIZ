@@ -2,10 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { cormorant, inter } from '@/lib/fonts'
 import { siteConfig, jsonLdLocalBusiness } from '@/lib/data/seo'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import WhatsAppFloat from '@/components/widgets/WhatsAppFloat'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
+import ConditionalChrome from '@/components/providers/ConditionalChrome'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -53,10 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-noir-profond text-blanc-pur font-inter antialiased">
         <SmoothScrollProvider>
-          <Header />
-          <main id="main-content">{children}</main>
-          <Footer />
-          <WhatsAppFloat />
+          <ConditionalChrome>{children}</ConditionalChrome>
         </SmoothScrollProvider>
       </body>
     </html>
