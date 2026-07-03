@@ -10,7 +10,6 @@ export default function LogoutButton() {
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/admin/login')
-    router.refresh()
   }
 
   return (
