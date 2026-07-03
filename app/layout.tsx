@@ -42,14 +42,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="fr" className={`${cormorant.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdLocalBusiness) }}
         />
       </head>
-      <body className="bg-noir-profond text-blanc-pur font-inter antialiased">
+      <body className="bg-noir-profond text-blanc-pur font-inter antialiased" suppressHydrationWarning>
         <SmoothScrollProvider>
           <ConditionalChrome>{children}</ConditionalChrome>
         </SmoothScrollProvider>
