@@ -4,6 +4,24 @@ import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+const AUTH_TIMEOUT_MS = 10000
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('TIMEOUT')), ms)
+    promise.then(
+      (value) => {
+        clearTimeout(timer)
+        resolve(value)
+      },
+      (err) => {
+        clearTimeout(timer)
+        reject(err)
+      }
+    )
+  })
+}
+
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
@@ -17,15 +35,29 @@ export default function LoginPage() {
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (error) {
-      setError('Email ou mot de passe incorrect.')
+    try {
+      const { error } = await withTimeout(
+        supabase.auth.signInWithPassword({ email, password }),
+        AUTH_TIMEOUT_MS
+      )
+
+      if (error) {
+        setError('Email ou mot de passe incorrect.')
+        setLoading(false)
+        return
+      }
+
+      router.push('/admin')
+    } catch (err) {
+      const timedOut = err instanceof Error && err.message === 'TIMEOUT'
+      setError(
+        timedOut
+          ? "Le serveur d'authentification ne répond pas. Vérifiez la connexion internet (ou un VPN/pare-feu qui bloquerait supabase.co)."
+          : 'Connexion impossible. Réessayez.'
+      )
       setLoading(false)
-      return
     }
-
-    router.push('/admin')
   }
 
   return (
