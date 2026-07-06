@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import LogoutButton from '@/components/admin/LogoutButton'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()

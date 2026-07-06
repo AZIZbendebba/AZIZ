@@ -7,14 +7,15 @@ import { realisations, getRealisationBySlug } from '@/lib/data/realisations'
 import GoldDivider from '@/components/shared/GoldDivider'
 import ContactCTA from '@/components/sections/ContactCTA'
 
-type Props = { params: { slug: string } }
+type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
   return realisations.map((r) => ({ slug: r.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const r = getRealisationBySlug(params.slug)
+  const { slug } = await params
+  const r = getRealisationBySlug(slug)
   if (!r) return {}
   return {
     title: r.titre,
@@ -22,8 +23,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function RealisationPage({ params }: Props) {
-  const r = getRealisationBySlug(params.slug)
+export default async function RealisationPage({ params }: Props) {
+  const { slug } = await params
+  const r = getRealisationBySlug(slug)
   if (!r) notFound()
 
   const currentIndex = realisations.findIndex((x) => x.slug === r.slug)

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 
 export default async function AdminDashboardPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const [{ count: clientsCount }, { count: produitsCount }] = await Promise.all([
     supabase.from('clients').select('*', { count: 'exact', head: true }),

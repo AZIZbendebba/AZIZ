@@ -9,14 +9,15 @@ import GoldDivider from '@/components/shared/GoldDivider'
 import SectionTitle from '@/components/shared/SectionTitle'
 import ContactCTA from '@/components/sections/ContactCTA'
 
-type Props = { params: { secteur: string } }
+type Props = { params: Promise<{ secteur: string }> }
 
 export async function generateStaticParams() {
   return secteurs.map((s) => ({ secteur: s.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const secteur = getSecteurBySlug(params.secteur)
+  const { secteur: slug } = await params
+  const secteur = getSecteurBySlug(slug)
   if (!secteur) return {}
   return {
     title: secteur.nom,
@@ -24,12 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function SecteurPage({ params }: Props) {
-  const secteur = getSecteurBySlug(params.secteur)
+export default async function SecteurPage({ params }: Props) {
+  const { secteur: slug } = await params
+  const secteur = getSecteurBySlug(slug)
   if (!secteur) notFound()
 
-  const realisations = getRealisationsBySecteur(params.secteur)
-  const autreSecteurs = secteurs.filter((s) => s.slug !== params.secteur).slice(0, 4)
+  const realisations = getRealisationsBySecteur(slug)
+  const autreSecteurs = secteurs.filter((s) => s.slug !== slug).slice(0, 4)
 
   return (
     <>
