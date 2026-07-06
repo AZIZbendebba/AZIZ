@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 const AUTH_TIMEOUT_MS = 10000
@@ -23,7 +22,6 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -48,7 +46,12 @@ export default function LoginPage() {
         return
       }
 
-      router.push('/admin')
+      // Navigation "dure" (pas router.push) : le middleware doit relire les
+      // cookies de session fraîchement écrits par signInWithPassword. Un
+      // push côté client peut arriver avant l'écriture du cookie et fait
+      // planter le reducer interne du App Router (course avec le
+      // redirect du middleware).
+      window.location.assign('/admin')
     } catch (err) {
       const timedOut = err instanceof Error && err.message === 'TIMEOUT'
       setError(
