@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useForm, useFieldArray, useWatch, type Control } from 'react-hook-form'
-import { ENTITES, REGIMES_TVA, STATUTS_DEVIS, UNITES, type Devis, type DevisLigne } from '@/lib/devis/types'
+import { ENTITES, MODES_PAIEMENT, REGIMES_TVA, STATUTS_DEVIS, UNITES, type Devis, type DevisLigne } from '@/lib/devis/types'
 import { calculerTotaux } from '@/lib/devis/totaux'
 import { creerDevis, modifierDevis, type DevisHeaderInput, type DevisLigneInput } from '@/app/admin/(protected)/devis/actions'
 import { inputClass, labelClass, buttonPrimaryClass, buttonSecondaryClass } from '@/lib/admin-ui'
@@ -289,7 +289,14 @@ export default function DevisForm({
           <label className={labelClass} htmlFor="mode_paiement">
             Mode de paiement
           </label>
-          <input id="mode_paiement" className={inputClass} {...register('mode_paiement')} />
+          <select id="mode_paiement" className={inputClass} {...register('mode_paiement')}>
+            <option value="">—</option>
+            {MODES_PAIEMENT.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

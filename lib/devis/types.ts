@@ -17,6 +17,7 @@ export const SECTEURS_CLIENT: SecteurClient[] = [
 ]
 export const STATUTS_CLIENT: StatutClient[] = ['Prospect', 'Client']
 export const STATUTS_DEVIS: StatutDevis[] = ['Brouillon', 'Envoyé', 'Accepté', 'Refusé']
+export const MODES_PAIEMENT = ['Chèque', 'Espèce'] as const
 
 export type Client = {
   id: string

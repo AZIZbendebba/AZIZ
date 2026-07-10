@@ -1,34 +1,37 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from 'pdf-lib'
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
 import path from 'path'
-import type { Client, Devis, DevisLigne } from './types'
+import type { Client, Devis, DevisLigne, RegimeTva } from './types'
 import { calculerTotaux, prixUnitaireNet, prixTotalNet } from './totaux'
 import { INFOS_ENTITE } from './entites'
 
 const PAGE_WIDTH = 595.28
 const PAGE_HEIGHT = 841.89
 const MARGIN = 40
-const FOOTER_Y = 40
+const FOOTER_Y = 54
+const TABLE_RIGHT = MARGIN + 525
+const NOIR = rgb(0.07, 0.07, 0.07)
+const GRIS = rgb(0.4, 0.4, 0.4)
+const GRIS_CLAIR = rgb(0.75, 0.75, 0.75)
 
-const REGIME_LABEL: Record<string, string> = {
-  Assujetti: 'Assujetti',
-  'Non assujetti': 'Non assujetti',
-  Exonere: 'Exonéré',
-}
+const REGIME_OPTIONS: { value: RegimeTva; label: string }[] = [
+  { value: 'Assujetti', label: 'Assujetti' },
+  { value: 'Non assujetti', label: 'Non assujetti' },
+  { value: 'Exonere', label: 'Exonéré' },
+]
 
-type Colonne = { label: string; x: number; w: number; right?: boolean }
+type Colonne = { label: string; label2?: string; x: number; w: number; right?: boolean }
 
 const COLONNES: Colonne[] = [
   { label: 'Code', x: MARGIN, w: 45 },
   { label: 'Unité', x: MARGIN + 45, w: 35 },
-  { label: 'Désignation', x: MARGIN + 80, w: 155 },
-  { label: 'QTE', x: MARGIN + 235, w: 40, right: true },
-  { label: 'Prix Unit. HTVA', x: MARGIN + 275, w: 70, right: true },
-  { label: 'Remise %', x: MARGIN + 345, w: 45, right: true },
-  { label: 'Prix Unit. net', x: MARGIN + 390, w: 65, right: true },
-  { label: 'Prix total net', x: MARGIN + 455, w: 70, right: true },
+  { label: 'Désignation', x: MARGIN + 80, w: 145 },
+  { label: 'QTE', x: MARGIN + 225, w: 35, right: true },
+  { label: 'Prix.Unit.', label2: 'H.T.V.A', x: MARGIN + 260, w: 65, right: true },
+  { label: 'REMISE', label2: 'EN %', x: MARGIN + 325, w: 45, right: true },
+  { label: 'Prix.Unit.net', label2: 'H.T.V.A', x: MARGIN + 370, w: 70, right: true },
+  { label: 'Prix.total', label2: 'net H.T.V.A', x: MARGIN + 440, w: 85, right: true },
 ]
-const TABLE_RIGHT = MARGIN + 525
 
 export async function genererDevisPdf(
   devis: Devis,
@@ -38,6 +41,7 @@ export async function genererDevisPdf(
   const pdfDoc = await PDFDocument.create()
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+  const fontSerif = await pdfDoc.embedFont(StandardFonts.TimesRomanBold)
   const infosEntite = INFOS_ENTITE[devis.entite]
   const totaux = calculerTotaux(lignes)
 
@@ -46,21 +50,19 @@ export async function genererDevisPdf(
 
   function drawFooter(p: PDFPage) {
     p.drawLine({
-      start: { x: MARGIN, y: FOOTER_Y + 14 },
-      end: { x: PAGE_WIDTH - MARGIN, y: FOOTER_Y + 14 },
+      start: { x: MARGIN, y: FOOTER_Y + 24 },
+      end: { x: PAGE_WIDTH - MARGIN, y: FOOTER_Y + 24 },
       thickness: 0.5,
-      color: rgb(0.75, 0.75, 0.75),
+      color: GRIS_CLAIR,
     })
-    p.drawText(
-      `${infosEntite.nomAffiche} — RC ${infosEntite.rc} — M.F. ${infosEntite.matriculeFiscal} — CD ${infosEntite.codeDouane}`,
-      { x: MARGIN, y: FOOTER_Y, size: 7, font, color: rgb(0.35, 0.35, 0.35) }
-    )
-    p.drawText(`${infosEntite.adresse} — Tél : ${infosEntite.telephone} — ${infosEntite.email}`, {
-      x: MARGIN,
-      y: FOOTER_Y - 10,
-      size: 7,
-      font,
-      color: rgb(0.35, 0.35, 0.35),
+    const lignesFooter = [
+      `${infosEntite.nomAffiche} au C.S de ${infosEntite.capitalSocial}`,
+      `RC : ${infosEntite.rc}    CD : ${infosEntite.codeDouane}    MF : ${infosEntite.matriculeFiscal}`,
+      infosEntite.adresse,
+      `Tél/Mob : ${infosEntite.telephone}    ${infosEntite.email}`,
+    ]
+    lignesFooter.forEach((texte, i) => {
+      p.drawText(texte, { x: MARGIN, y: FOOTER_Y + 10 - i * 9, size: 7, font, color: GRIS })
     })
   }
 
@@ -71,7 +73,7 @@ export async function genererDevisPdf(
   }
 
   function assurerEspace(hauteur: number) {
-    if (y - hauteur < FOOTER_Y + 24) nouvellePage()
+    if (y - hauteur < FOOTER_Y + 40) nouvellePage()
   }
 
   function texteAligne(p: PDFPage, texte: string, x: number, w: number, taille: number, f: PDFFont, alignerDroite?: boolean) {
@@ -79,73 +81,181 @@ export async function genererDevisPdf(
     p.drawText(texte, { x: posX, y, size: taille, font: f })
   }
 
-  // En-tête : logo (ou nom de l'entité) + bloc devis
-  if (infosEntite.logo) {
-    try {
-      const bytes = readFileSync(path.join(process.cwd(), infosEntite.logo))
-      const image = await pdfDoc.embedPng(bytes)
-      const largeur = 120
-      const hauteur = (image.height / image.width) * largeur
-      page.drawImage(image, { x: MARGIN, y: y - hauteur, width: largeur, height: hauteur })
-    } catch {
-      page.drawText(infosEntite.nomAffiche.toUpperCase(), { x: MARGIN, y: y - 14, size: 14, font: fontBold })
+  // Dessine du texte avec un espacement additionnel entre lettres, centré
+  // sur `centreX` (approximation d'un texte "tracké" de type logo).
+  function texteEspaceCentre(
+    p: PDFPage,
+    texte: string,
+    centreX: number,
+    yTexte: number,
+    taille: number,
+    f: PDFFont,
+    espacement: number,
+    couleur = NOIR
+  ) {
+    const largeurTotale =
+      texte.split('').reduce((acc, c) => acc + f.widthOfTextAtSize(c, taille), 0) + espacement * (texte.length - 1)
+    let curseurX = centreX - largeurTotale / 2
+    for (const caractere of texte) {
+      p.drawText(caractere, { x: curseurX, y: yTexte, size: taille, font: f, color: couleur })
+      curseurX += f.widthOfTextAtSize(caractere, taille) + espacement
     }
+  }
+
+  // Table de 2 lignes (N° / Date), façon "en-tête de document"
+  function drawBoiteNumeroDate(): number {
+    const x = MARGIN + 300
+    const largeur = TABLE_RIGHT - x
+    const hauteurLigne = 16
+    const hauteur = hauteurLigne * 2
+    const yTop = y
+    page.drawRectangle({ x, y: yTop - hauteur, width: largeur, height: hauteur, borderColor: NOIR, borderWidth: 0.7 })
+    page.drawLine({ start: { x, y: yTop - hauteurLigne }, end: { x: x + largeur, y: yTop - hauteurLigne }, thickness: 0.7, color: NOIR })
+    const labelWidth = largeur * 0.35
+    page.drawLine({ start: { x: x + labelWidth, y: yTop }, end: { x: x + labelWidth, y: yTop - hauteur }, thickness: 0.7, color: NOIR })
+    const lignes: [string, string][] = [
+      ['N°', devis.numero],
+      ['Date', devis.date],
+    ]
+    lignes.forEach(([label, valeur], i) => {
+      const rowY = yTop - i * hauteurLigne - hauteurLigne + 5
+      page.drawText(label, { x: x + 4, y: rowY, size: 8, font: fontBold })
+      page.drawText(valeur, { x: x + labelWidth + 4, y: rowY, size: 8, font })
+    })
+    return hauteur
+  }
+
+  // Table à 3 cases (régime TVA) avec une croix dans la case active
+  function drawTableRegimeTva(yTop: number): number {
+    const x = MARGIN
+    const largeur = 210
+    const hauteurLigne = 14
+    const hauteur = hauteurLigne * REGIME_OPTIONS.length
+    const marqueLargeur = 26
+    page.drawRectangle({ x, y: yTop - hauteur, width: largeur, height: hauteur, borderColor: NOIR, borderWidth: 0.7 })
+    page.drawLine({
+      start: { x: x + largeur - marqueLargeur, y: yTop },
+      end: { x: x + largeur - marqueLargeur, y: yTop - hauteur },
+      thickness: 0.7,
+      color: NOIR,
+    })
+    REGIME_OPTIONS.forEach((option, i) => {
+      const rowTop = yTop - i * hauteurLigne
+      if (i > 0) {
+        page.drawLine({ start: { x, y: rowTop }, end: { x: x + largeur, y: rowTop }, thickness: 0.5, color: GRIS_CLAIR })
+      }
+      const rowY = rowTop - hauteurLigne + 4
+      page.drawText(option.label, { x: x + 4, y: rowY, size: 8, font })
+      if (option.value === devis.regime_tva) {
+        page.drawText('X', { x: x + largeur - marqueLargeur / 2 - 3, y: rowY, size: 9, font: fontBold })
+      }
+    })
+    return hauteur
+  }
+
+  // --- En-tête -------------------------------------------------------
+  if (infosEntite.email) {
+    page.drawText(`Email : ${infosEntite.email}`, {
+      x: TABLE_RIGHT - font.widthOfTextAtSize(`Email : ${infosEntite.email}`, 7),
+      y,
+      size: 7,
+      font,
+      color: GRIS,
+    })
+    y -= 16
+  }
+
+  const logoTop = y
+  const logoPath = infosEntite.logo ? path.join(process.cwd(), infosEntite.logo) : null
+  if (logoPath && existsSync(logoPath)) {
+    const bytes = readFileSync(logoPath)
+    const image = await pdfDoc.embedPng(bytes)
+    const largeur = 90
+    const hauteur = (image.height / image.width) * largeur
+    page.drawImage(image, { x: MARGIN, y: logoTop - hauteur, width: largeur, height: hauteur })
   } else {
-    page.drawText(infosEntite.nomAffiche.toUpperCase(), { x: MARGIN, y: y - 14, size: 14, font: fontBold })
+    // Reconstitution graphique en attendant le fichier logo réel (fond
+    // gris chaud foncé + monogramme "TL" et légende en crème, d'après
+    // l'aperçu visuel transmis).
+    const taille = 64
+    const fondFonce = rgb(0.227, 0.212, 0.196)
+    const creme = rgb(0.961, 0.949, 0.925)
+    page.drawRectangle({ x: MARGIN, y: logoTop - taille, width: taille, height: taille, color: fondFonce })
+    texteEspaceCentre(page, 'TL', MARGIN + taille / 2, logoTop - taille / 2 - 9, 26, fontSerif, 1, creme)
+    texteEspaceCentre(page, 'TECHNO-LOGIKA', MARGIN + taille / 2, logoTop - taille + 8, 5.5, font, 1, creme)
   }
 
-  const headerRightX = PAGE_WIDTH - MARGIN - 220
-  let hy = y
-  const ligneEntete = (texte: string, gras = false) => {
-    page.drawText(texte, { x: headerRightX, y: hy, size: gras ? 12 : 9, font: gras ? fontBold : font })
-    hy -= gras ? 16 : 12
-  }
-  ligneEntete(`OFFRE DE PRIX ${devis.numero}`, true)
-  ligneEntete(`Date : ${devis.date}`)
-  if (devis.validite) ligneEntete(`Validité : ${devis.validite}`)
-  ligneEntete(`Régime TVA : ${REGIME_LABEL[devis.regime_tva] ?? devis.regime_tva}`)
-  if (devis.matricule_fiscal) ligneEntete(`M.F. : ${devis.matricule_fiscal}`)
-
-  y -= 75
-
-  // Bloc client
-  assurerEspace(60)
-  page.drawRectangle({
-    x: MARGIN,
-    y: y - 55,
-    width: TABLE_RIGHT - MARGIN,
-    height: 55,
-    borderColor: rgb(0.8, 0.8, 0.8),
-    borderWidth: 0.5,
+  // Titre + boîte N°/Date alignés avec le haut du logo
+  y = logoTop
+  page.drawText('OFFRE DE PRIX', {
+    x: TABLE_RIGHT - fontBold.widthOfTextAtSize('OFFRE DE PRIX', 13),
+    y: y - 12,
+    size: 13,
+    font: fontBold,
   })
-  let cy = y - 12
-  const ligneClient = (texte: string) => {
-    page.drawText(texte, { x: MARGIN + 8, y: cy, size: 9, font })
-    cy -= 11
+  y -= 24
+  const hauteurBoite = drawBoiteNumeroDate()
+  y -= hauteurBoite + 20
+
+  // --- Bloc client (gauche) -------------------------------------------
+  const yBlocInfos = y
+  page.drawText('Code Client :', { x: MARGIN, y, size: 8, font: fontBold })
+  page.drawText(client.code_client ?? '', { x: MARGIN + 65, y, size: 8, font })
+  y -= 12
+  page.drawText('Client :', { x: MARGIN, y, size: 8, font: fontBold })
+  page.drawText(client.nom, { x: MARGIN + 65, y, size: 8, font })
+  y -= 12
+  if (client.adresse) {
+    page.drawText('Adresse :', { x: MARGIN, y, size: 8, font: fontBold })
+    page.drawText(client.adresse, { x: MARGIN + 65, y, size: 8, font })
+    y -= 12
   }
-  ligneClient(client.nom)
-  if (client.code_client) ligneClient(`Code client : ${client.code_client}`)
-  if (client.adresse) ligneClient(client.adresse)
-  const contact = [client.telephone && `Tél : ${client.telephone}`, client.email].filter(Boolean).join(' — ')
-  if (contact) ligneClient(contact)
-  const conditions = [
-    devis.mode_livraison && `Livraison : ${devis.mode_livraison}`,
-    devis.delai_livraison && `Délai : ${devis.delai_livraison}`,
-    devis.mode_paiement && `Paiement : ${devis.mode_paiement}`,
-  ]
-    .filter(Boolean)
-    .join('   ')
-  if (conditions) ligneClient(conditions)
+  const contact = [client.telephone && `Tél : ${client.telephone}`, client.email].filter(Boolean).join('   ')
+  if (contact) {
+    page.drawText(contact, { x: MARGIN, y, size: 8, font })
+    y -= 12
+  }
 
-  y -= 70
+  // --- Bloc infos commerciales (droite) --------------------------------
+  let yDroite = yBlocInfos
+  const infosCommerciales = [
+    devis.mode_livraison && ['Mode de livraison', devis.mode_livraison],
+    devis.delai_livraison && ['Délai de livraison', devis.delai_livraison],
+    devis.mode_paiement && ['Mode de paiement', devis.mode_paiement],
+    devis.validite && ["Validité de l'offre", devis.validite],
+  ].filter(Boolean) as [string, string][]
 
+  const droiteX = MARGIN + 300
+  infosCommerciales.forEach(([label, valeur]) => {
+    page.drawText(`${label} :`, { x: droiteX, y: yDroite, size: 8, font: fontBold })
+    page.drawText(valeur, { x: droiteX + 100, y: yDroite, size: 8, font })
+    yDroite -= 12
+  })
+
+  y = Math.min(y, yDroite) - 10
+
+  // --- Régime TVA + matricule fiscal ----------------------------------
+  const yRegime = y
+  const hauteurRegime = drawTableRegimeTva(yRegime)
+  if (devis.matricule_fiscal) {
+    page.drawText(devis.matricule_fiscal, { x: MARGIN + 230, y: yRegime - hauteurRegime / 2 - 3, size: 10, font: fontBold })
+  }
+  y -= hauteurRegime + 18
+
+  // --- Tableau des lignes ----------------------------------------------
   function enTeteTableau() {
-    assurerEspace(20)
+    assurerEspace(24)
     for (const colonne of COLONNES) {
-      texteAligne(page, colonne.label, colonne.x, colonne.w, 8, fontBold, colonne.right)
+      texteAligne(page, colonne.label, colonne.x, colonne.w, 7.5, fontBold, colonne.right)
+      if (colonne.label2) {
+        const yLabel2 = y
+        y -= 9
+        texteAligne(page, colonne.label2, colonne.x, colonne.w, 7.5, fontBold, colonne.right)
+        y = yLabel2
+      }
     }
-    y -= 6
-    page.drawLine({ start: { x: MARGIN, y }, end: { x: TABLE_RIGHT, y }, thickness: 0.7, color: rgb(0.1, 0.1, 0.1) })
+    y -= 18
+    page.drawLine({ start: { x: MARGIN, y }, end: { x: TABLE_RIGHT, y }, thickness: 0.7, color: NOIR })
     y -= 12
   }
 
@@ -157,14 +267,14 @@ export async function genererDevisPdf(
     if (ligne.section) sectionCourante = ligne.section
 
     if (nouvelleSection) {
-      assurerEspace(16)
-      y -= 4
+      assurerEspace(20)
+      y -= 6
       page.drawText(ligne.section as string, { x: MARGIN, y, size: 9, font: fontBold })
-      y -= 14
+      y -= 16
     }
     if (ligne.sous_groupe) {
       assurerEspace(12)
-      page.drawText(ligne.sous_groupe, { x: MARGIN, y, size: 7.5, font, color: rgb(0.4, 0.4, 0.4) })
+      page.drawText(ligne.sous_groupe, { x: MARGIN, y, size: 7.5, font, color: GRIS })
       y -= 11
     }
 
@@ -188,7 +298,7 @@ export async function genererDevisPdf(
     y -= 13
   }
 
-  // Totaux
+  // --- Totaux -----------------------------------------------------------
   assurerEspace(90)
   y -= 10
   const totalsX = TABLE_RIGHT - 160
@@ -207,7 +317,7 @@ export async function genererDevisPdf(
     start: { x: totalsX, y: y + 8 },
     end: { x: TABLE_RIGHT, y: y + 8 },
     thickness: 0.7,
-    color: rgb(0.1, 0.1, 0.1),
+    color: NOIR,
   })
   ligneTotal('TOTAL TTC', `${totaux.totalTtc.toFixed(3)} DT`, true)
 
