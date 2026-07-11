@@ -36,6 +36,11 @@ export async function GET(_request: Request, { params }: Props) {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename="devis-${(devis as Devis).numero.replace(/[^\w-]/g, '_')}.pdf"`,
+      // Sans Content-Length explicite, la réponse part en Transfer-Encoding
+      // chunked : certains proxies/antivirus ne relaient jamais le chunk
+      // terminal sur les réponses binaires multi-paquets, ce qui bloque le
+      // téléchargement indéfiniment (fichier .crdownload/.tmp).
+      'Content-Length': String(pdfBytes.byteLength),
     },
   })
 }
