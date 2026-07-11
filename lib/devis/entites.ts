@@ -1,10 +1,7 @@
 import type { Entite } from './types'
 
-// TODO(Promacryl) : les coordonnées légales de Solid Surface Tunisie
-// (RC, matricule fiscal, code douane, capital social, adresse, téléphone)
-// restent en placeholder "À compléter" — pas fournies dans le cahier des
-// charges. Celles de Techno-Logika viennent du bon de livraison n°23 du
-// 24/06/2026 (document réel partagé). Le logo Techno-Logika (fichier
+// TODO(Promacryl) : le capital social de Solid Surface Tunisie reste en
+// placeholder "À compléter" (non fourni). Le logo Techno-Logika (fichier
 // image) n'est pas encore disponible dans le dépôt.
 export const INFOS_ENTITE: Record<
   Entite,
@@ -18,18 +15,24 @@ export const INFOS_ENTITE: Record<
     rc: string
     matriculeFiscal: string
     codeDouane: string
+    identifiantUnique?: string
+    rib?: string
+    siteWeb?: string
   }
 > = {
   'Solid Surface Tunisie': {
     logo: 'public/logo-noir.png',
     nomAffiche: 'Solid Surface Tunisie',
     capitalSocial: 'À compléter',
-    adresse: 'À compléter',
-    telephone: 'À compléter',
-    email: 'À compléter',
-    rc: 'À compléter',
-    matriculeFiscal: 'À compléter',
-    codeDouane: 'À compléter',
+    adresse: 'Avenue Fattouma Bourguiba, résidence Tej Ezzahra, bureau 2.5, 2036 La Soukra',
+    telephone: '(+216) 99 635 309 - 98 401 512',
+    email: 'admin@promacryl.tn / gestcom@promacryl.tn',
+    rc: 'B033802021',
+    matriculeFiscal: '1699861A A M 000',
+    codeDouane: '1199861A',
+    identifiantUnique: '1699861A',
+    rib: '25 009 000 0000844022 11',
+    siteWeb: 'https://www.solid-surface-tunisie.com/',
   },
   'Techno-Logika': {
     logo: 'public/logo-techno-logika.png',
