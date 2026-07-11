@@ -166,24 +166,27 @@ export async function genererDevisPdf(
   }
 
   const logoTop = y
+  const LOGO_MAX = 64 // boîte carrée compacte, comme dans le gabarit de référence
   const logoPath = infosEntite.logo ? path.join(process.cwd(), infosEntite.logo) : null
+  let logoHauteur = LOGO_MAX
   if (logoPath && existsSync(logoPath)) {
     const bytes = readFileSync(logoPath)
     const image = await pdfDoc.embedPng(bytes)
-    const largeur = 90
-    const hauteur = (image.height / image.width) * largeur
-    page.drawImage(image, { x: MARGIN, y: logoTop - hauteur, width: largeur, height: hauteur })
+    const ratio = Math.min(LOGO_MAX / image.width, LOGO_MAX / image.height)
+    const largeur = image.width * ratio
+    logoHauteur = image.height * ratio
+    page.drawImage(image, { x: MARGIN, y: logoTop - logoHauteur, width: largeur, height: logoHauteur })
   } else {
     // Reconstitution graphique en attendant le fichier logo réel (fond
     // gris chaud foncé + monogramme "TL" et légende en crème, d'après
     // l'aperçu visuel transmis).
-    const taille = 64
     const fondFonce = rgb(0.227, 0.212, 0.196)
     const creme = rgb(0.961, 0.949, 0.925)
-    page.drawRectangle({ x: MARGIN, y: logoTop - taille, width: taille, height: taille, color: fondFonce })
-    texteEspaceCentre(page, 'TL', MARGIN + taille / 2, logoTop - taille / 2 - 9, 26, fontSerif, 1, creme)
-    texteEspaceCentre(page, 'TECHNO-LOGIKA', MARGIN + taille / 2, logoTop - taille + 8, 5.5, font, 1, creme)
+    page.drawRectangle({ x: MARGIN, y: logoTop - LOGO_MAX, width: LOGO_MAX, height: LOGO_MAX, color: fondFonce })
+    texteEspaceCentre(page, 'TL', MARGIN + LOGO_MAX / 2, logoTop - LOGO_MAX / 2 - 9, 26, fontSerif, 1, creme)
+    texteEspaceCentre(page, 'TECHNO-LOGIKA', MARGIN + LOGO_MAX / 2, logoTop - LOGO_MAX + 8, 5.5, font, 1, creme)
   }
+  const logoBas = logoTop - logoHauteur
 
   // Titre + boîte N°/Date alignés avec le haut du logo
   y = logoTop
@@ -196,6 +199,10 @@ export async function genererDevisPdf(
   y -= 24
   const hauteurBoite = drawBoiteNumeroDate()
   y -= hauteurBoite + 20
+
+  // Le bloc suivant doit rester sous le logo ET sous le bloc titre/N°/Date,
+  // quelle que soit la proportion réelle de l'image du logo.
+  y = Math.min(y, logoBas - 14)
 
   // --- Bloc client (gauche) -------------------------------------------
   const yBlocInfos = y
