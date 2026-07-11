@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from 'pdf-lib'
+import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from 'pdf-lib'
 import { readFileSync, existsSync } from 'fs'
 import path from 'path'
 import type { Client, Devis, DevisLigne, RegimeTva } from './types'
@@ -45,25 +45,54 @@ export async function genererDevisPdf(
   const infosEntite = INFOS_ENTITE[devis.entite]
   const totaux = calculerTotaux(lignes)
 
+  // Logo affiché en pied de page (entités sans logo en en-tête).
+  let logoPied: { image: PDFImage; largeur: number; hauteur: number } | null = null
+  if (infosEntite.logoPosition === 'pied' && infosEntite.logo) {
+    const logoPiedPath = path.join(process.cwd(), infosEntite.logo)
+    if (existsSync(logoPiedPath)) {
+      const image = await pdfDoc.embedPng(readFileSync(logoPiedPath))
+      const maxW = 120
+      const maxH = 44
+      const ratio = Math.min(maxW / image.width, maxH / image.height)
+      logoPied = { image, largeur: image.width * ratio, hauteur: image.height * ratio }
+    }
+  }
+  const lignesFooter = [
+    `${infosEntite.nomAffiche} au C.S de ${infosEntite.capitalSocial}`,
+    `RC : ${infosEntite.rc}    CD : ${infosEntite.codeDouane}    MF : ${infosEntite.matriculeFiscal}`,
+    infosEntite.adresse,
+    `Tél/Mob : ${infosEntite.telephone}    ${infosEntite.email}`,
+  ]
+
+  // Construit le pied de page du bas vers le haut : texte légal, puis
+  // (si besoin) le filet séparateur, puis le logo centré au-dessus — pour
+  // garantir qu'aucun élément ne chevauche le suivant.
+  const texteHautY = FOOTER_Y + (lignesFooter.length - 1) * 9
+  const filetY = texteHautY + 15
+  const logoY = logoPied ? filetY + 8 : filetY
+  const footerReserve = (logoY + (logoPied ? logoPied.hauteur : 0) - FOOTER_Y) + 20
+
   let page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
   let y = PAGE_HEIGHT - MARGIN
 
   function drawFooter(p: PDFPage) {
+    lignesFooter.forEach((texte, i) => {
+      p.drawText(texte, { x: MARGIN, y: texteHautY - i * 9, size: 7, font, color: GRIS })
+    })
     p.drawLine({
-      start: { x: MARGIN, y: FOOTER_Y + 24 },
-      end: { x: PAGE_WIDTH - MARGIN, y: FOOTER_Y + 24 },
+      start: { x: MARGIN, y: filetY },
+      end: { x: PAGE_WIDTH - MARGIN, y: filetY },
       thickness: 0.5,
       color: GRIS_CLAIR,
     })
-    const lignesFooter = [
-      `${infosEntite.nomAffiche} au C.S de ${infosEntite.capitalSocial}`,
-      `RC : ${infosEntite.rc}    CD : ${infosEntite.codeDouane}    MF : ${infosEntite.matriculeFiscal}`,
-      infosEntite.adresse,
-      `Tél/Mob : ${infosEntite.telephone}    ${infosEntite.email}`,
-    ]
-    lignesFooter.forEach((texte, i) => {
-      p.drawText(texte, { x: MARGIN, y: FOOTER_Y + 10 - i * 9, size: 7, font, color: GRIS })
-    })
+    if (logoPied) {
+      p.drawImage(logoPied.image, {
+        x: (PAGE_WIDTH - logoPied.largeur) / 2,
+        y: logoY,
+        width: logoPied.largeur,
+        height: logoPied.hauteur,
+      })
+    }
   }
 
   function nouvellePage() {
@@ -73,7 +102,7 @@ export async function genererDevisPdf(
   }
 
   function assurerEspace(hauteur: number) {
-    if (y - hauteur < FOOTER_Y + 40) nouvellePage()
+    if (y - hauteur < FOOTER_Y + footerReserve) nouvellePage()
   }
 
   function texteAligne(p: PDFPage, texte: string, x: number, w: number, taille: number, f: PDFFont, alignerDroite?: boolean) {
@@ -165,31 +194,45 @@ export async function genererDevisPdf(
     y -= 16
   }
 
-  const logoTop = y
-  const LOGO_MAX = 64 // boîte carrée compacte, comme dans le gabarit de référence
-  const logoPath = infosEntite.logo ? path.join(process.cwd(), infosEntite.logo) : null
-  let logoHauteur = LOGO_MAX
-  if (logoPath && existsSync(logoPath)) {
-    const bytes = readFileSync(logoPath)
-    const image = await pdfDoc.embedPng(bytes)
-    const ratio = Math.min(LOGO_MAX / image.width, LOGO_MAX / image.height)
-    const largeur = image.width * ratio
-    logoHauteur = image.height * ratio
-    page.drawImage(image, { x: MARGIN, y: logoTop - logoHauteur, width: largeur, height: logoHauteur })
-  } else {
-    // Reconstitution graphique en attendant le fichier logo réel (fond
-    // gris chaud foncé + monogramme "TL" et légende en crème, d'après
-    // l'aperçu visuel transmis).
-    const fondFonce = rgb(0.227, 0.212, 0.196)
-    const creme = rgb(0.961, 0.949, 0.925)
-    page.drawRectangle({ x: MARGIN, y: logoTop - LOGO_MAX, width: LOGO_MAX, height: LOGO_MAX, color: fondFonce })
-    texteEspaceCentre(page, 'TL', MARGIN + LOGO_MAX / 2, logoTop - LOGO_MAX / 2 - 9, 26, fontSerif, 1, creme)
-    texteEspaceCentre(page, 'TECHNO-LOGIKA', MARGIN + LOGO_MAX / 2, logoTop - LOGO_MAX + 8, 5.5, font, 1, creme)
-  }
-  const logoBas = logoTop - logoHauteur
+  const colonneGaucheTop = y
+  let colonneGaucheBas: number
 
-  // Titre + boîte N°/Date alignés avec le haut du logo
-  y = logoTop
+  if (infosEntite.logoPosition === 'entete') {
+    const LOGO_MAX = 64 // boîte carrée compacte, comme dans le gabarit de référence
+    const logoPath = infosEntite.logo ? path.join(process.cwd(), infosEntite.logo) : null
+    let logoHauteur = LOGO_MAX
+    if (logoPath && existsSync(logoPath)) {
+      const bytes = readFileSync(logoPath)
+      const image = await pdfDoc.embedPng(bytes)
+      const ratio = Math.min(LOGO_MAX / image.width, LOGO_MAX / image.height)
+      const largeur = image.width * ratio
+      logoHauteur = image.height * ratio
+      page.drawImage(image, { x: MARGIN, y: colonneGaucheTop - logoHauteur, width: largeur, height: logoHauteur })
+    } else {
+      // Reconstitution graphique en attendant le fichier logo réel (fond
+      // gris chaud foncé + monogramme "TL" et légende en crème, d'après
+      // l'aperçu visuel transmis).
+      const fondFonce = rgb(0.227, 0.212, 0.196)
+      const creme = rgb(0.961, 0.949, 0.925)
+      page.drawRectangle({ x: MARGIN, y: colonneGaucheTop - LOGO_MAX, width: LOGO_MAX, height: LOGO_MAX, color: fondFonce })
+      texteEspaceCentre(page, 'TL', MARGIN + LOGO_MAX / 2, colonneGaucheTop - LOGO_MAX / 2 - 9, 26, fontSerif, 1, creme)
+      texteEspaceCentre(page, 'TECHNO-LOGIKA', MARGIN + LOGO_MAX / 2, colonneGaucheTop - LOGO_MAX + 8, 5.5, font, 1, creme)
+    }
+    colonneGaucheBas = colonneGaucheTop - logoHauteur
+  } else {
+    // Pas de logo en en-tête : texte libre (raison sociale + coordonnées).
+    let yTexte = colonneGaucheTop - 10
+    const lignesEntete = infosEntite.enteteTexte ?? [infosEntite.nomAffiche]
+    lignesEntete.forEach((ligneTexte, i) => {
+      const estTitre = i === 0
+      page.drawText(ligneTexte, { x: MARGIN, y: yTexte, size: estTitre ? 12 : 7.5, font: estTitre ? fontBold : font })
+      yTexte -= estTitre ? 15 : 10
+    })
+    colonneGaucheBas = yTexte + 3
+  }
+
+  // Titre + boîte N°/Date alignés avec le haut de la colonne gauche
+  y = colonneGaucheTop
   page.drawText('OFFRE DE PRIX', {
     x: TABLE_RIGHT - fontBold.widthOfTextAtSize('OFFRE DE PRIX', 13),
     y: y - 12,
@@ -200,9 +243,9 @@ export async function genererDevisPdf(
   const hauteurBoite = drawBoiteNumeroDate()
   y -= hauteurBoite + 20
 
-  // Le bloc suivant doit rester sous le logo ET sous le bloc titre/N°/Date,
-  // quelle que soit la proportion réelle de l'image du logo.
-  y = Math.min(y, logoBas - 14)
+  // Le bloc suivant doit rester sous la colonne gauche (logo ou texte) ET
+  // sous le bloc titre/N°/Date, quel que soit leur contenu respectif.
+  y = Math.min(y, colonneGaucheBas - 14)
 
   // --- Bloc client (gauche) -------------------------------------------
   const yBlocInfos = y

@@ -7,6 +7,11 @@ export const INFOS_ENTITE: Record<
   Entite,
   {
     logo: string | null
+    // 'entete' : logo affiché en haut à gauche (comportement par défaut).
+    // 'pied'   : pas de logo en en-tête (remplacé par enteteTexte), le
+    //            logo est affiché centré en bas de page à la place.
+    logoPosition: 'entete' | 'pied'
+    enteteTexte?: string[]
     nomAffiche: string
     capitalSocial: string
     adresse: string
@@ -22,6 +27,13 @@ export const INFOS_ENTITE: Record<
 > = {
   'Solid Surface Tunisie': {
     logo: 'public/logo-noir.png',
+    logoPosition: 'pied',
+    enteteTexte: [
+      'PROMACRYL',
+      'Siège Social : avenue Fattouma Bourguiba - résidence Tej Ezzahra - Bureau 2.5',
+      '2036 La Soukra - Tunis',
+      'Tél : (+216) 99 635 309 - 98 401 512',
+    ],
     nomAffiche: 'Solid Surface Tunisie',
     capitalSocial: 'À compléter',
     adresse: 'Avenue Fattouma Bourguiba, résidence Tej Ezzahra, bureau 2.5, 2036 La Soukra',
@@ -36,6 +48,7 @@ export const INFOS_ENTITE: Record<
   },
   'Techno-Logika': {
     logo: 'public/logo-techno-logika.png',
+    logoPosition: 'entete',
     nomAffiche: 'Techno-Logika SA',
     capitalSocial: '1.600.000 DT',
     adresse: 'Résidence Tej Ezzahra, bureau 2.3, avenue Fattouma Bourguiba, 2036 La Soukra',
