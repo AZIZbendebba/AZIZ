@@ -51,8 +51,8 @@ export async function genererDevisPdf(
     const logoPiedPath = path.join(process.cwd(), infosEntite.logo)
     if (existsSync(logoPiedPath)) {
       const image = await pdfDoc.embedPng(readFileSync(logoPiedPath))
-      const maxW = 120
-      const maxH = 44
+      const maxW = 260
+      const maxH = 95
       const ratio = Math.min(maxW / image.width, maxH / image.height)
       logoPied = { image, largeur: image.width * ratio, hauteur: image.height * ratio }
     }
