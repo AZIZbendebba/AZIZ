@@ -84,11 +84,14 @@ export async function genererDevisPdf(
     }
   }
   const lignesFooter = [
-    `${infosEntite.nomAffiche} au C.S de ${infosEntite.capitalSocial}`,
+    // Pas de capital social communiqué : la ligne "au C.S de ..." ne doit
+    // pas apparaître du tout (ni la ligne, ni un placeholder).
+    infosEntite.capitalSocial && `${infosEntite.nomAffiche} au C.S de ${infosEntite.capitalSocial}`,
     `RC : ${infosEntite.rc}    CD : ${infosEntite.codeDouane}    MF : ${infosEntite.matriculeFiscal}`,
     infosEntite.adresse,
     `Tél/Mob : ${infosEntite.telephone}    ${infosEntite.email}`,
-  ]
+  ].filter((ligne): ligne is string => Boolean(ligne))
+  const couleurFooter = infosEntite.footerTexteNoir ? NOIR : GRIS
 
   // Construit le pied de page du bas vers le haut : texte légal, puis
   // (si besoin) le filet séparateur, puis le logo centré au-dessus — pour
@@ -103,7 +106,11 @@ export async function genererDevisPdf(
 
   function drawFooter(p: PDFPage) {
     lignesFooter.forEach((texte, i) => {
-      p.drawText(texte, { x: MARGIN, y: texteHautY - i * 9, size: 7, font, color: GRIS })
+      const x =
+        infosEntite.footerAlignement === 'centre'
+          ? (PAGE_WIDTH - font.widthOfTextAtSize(texte, 7)) / 2
+          : MARGIN
+      p.drawText(texte, { x, y: texteHautY - i * 9, size: 7, font, color: couleurFooter })
     })
     p.drawLine({
       start: { x: MARGIN, y: filetY },

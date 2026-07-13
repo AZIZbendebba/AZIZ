@@ -1,8 +1,7 @@
 import type { Entite } from './types'
 
-// TODO(Promacryl) : le capital social de Solid Surface Tunisie reste en
-// placeholder "À compléter" (non fourni). Le logo Techno-Logika (fichier
-// image) n'est pas encore disponible dans le dépôt.
+// TODO(Promacryl) : le logo Techno-Logika (fichier image) n'est pas
+// encore disponible dans le dépôt.
 export const INFOS_ENTITE: Record<
   Entite,
   {
@@ -12,8 +11,13 @@ export const INFOS_ENTITE: Record<
     //            logo est affiché centré en bas de page à la place.
     logoPosition: 'entete' | 'pied'
     enteteTexte?: string[]
+    // Style du bloc mentions légales en pied de page.
+    footerAlignement: 'gauche' | 'centre'
+    footerTexteNoir?: boolean
     nomAffiche: string
-    capitalSocial: string
+    // null = pas de capital social communiqué : la ligne "au C.S de ..."
+    // n'est alors pas affichée du tout (plutôt qu'un placeholder visible).
+    capitalSocial: string | null
     adresse: string
     telephone: string
     email: string
@@ -34,8 +38,10 @@ export const INFOS_ENTITE: Record<
       '2036 La Soukra - Tunis',
       'Tél : (+216) 99 635 309 - 98 401 512',
     ],
+    footerAlignement: 'centre',
+    footerTexteNoir: true,
     nomAffiche: 'Solid Surface Tunisie',
-    capitalSocial: 'À compléter',
+    capitalSocial: null,
     adresse: 'Avenue Fattouma Bourguiba, résidence Tej Ezzahra, bureau 2.5, 2036 La Soukra',
     telephone: '(+216) 99 635 309 - 98 401 512',
     email: 'admin@promacryl.tn / gestcom@promacryl.tn',
@@ -49,6 +55,7 @@ export const INFOS_ENTITE: Record<
   'Techno-Logika': {
     logo: 'public/logo-techno-logika.png',
     logoPosition: 'entete',
+    footerAlignement: 'gauche',
     nomAffiche: 'Techno-Logika SA',
     capitalSocial: '1.600.000 DT',
     adresse: 'Résidence Tej Ezzahra, bureau 2.3, avenue Fattouma Bourguiba, 2036 La Soukra',
