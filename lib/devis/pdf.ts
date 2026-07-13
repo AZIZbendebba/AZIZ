@@ -14,6 +14,32 @@ const NOIR = rgb(0.07, 0.07, 0.07)
 const GRIS = rgb(0.4, 0.4, 0.4)
 const GRIS_CLAIR = rgb(0.75, 0.75, 0.75)
 
+// Découpe un texte en lignes qui tiennent chacune dans `largeurMax`.
+function decouperTexte(texte: string, largeurMax: number, f: PDFFont, taille: number): string[] {
+  const mots = texte.split(' ')
+  const lignes: string[] = []
+  let ligneCourante = ''
+  for (const mot of mots) {
+    const essai = ligneCourante ? `${ligneCourante} ${mot}` : mot
+    if (f.widthOfTextAtSize(essai, taille) > largeurMax && ligneCourante) {
+      lignes.push(ligneCourante)
+      ligneCourante = mot
+    } else {
+      ligneCourante = essai
+    }
+  }
+  if (ligneCourante) lignes.push(ligneCourante)
+  return lignes.length > 0 ? lignes : ['']
+}
+
+// L'utilisateur saisit juste un nombre de jours ; le PDF affiche la
+// formule complète. Si un texte libre a été saisi à la place, on
+// l'affiche tel quel plutôt que de forcer le format.
+function formaterDelaiLivraison(valeur: string): string {
+  const nettoye = valeur.trim()
+  return /^\d+$/.test(nettoye) ? `${nettoye} jours à partir date confirmation de commande` : nettoye
+}
+
 const REGIME_OPTIONS: { value: RegimeTva; label: string }[] = [
   { value: 'Assujetti', label: 'Assujetti' },
   { value: 'Non assujetti', label: 'Non assujetti' },
@@ -247,6 +273,8 @@ export async function genererDevisPdf(
   // sous le bloc titre/N°/Date, quel que soit leur contenu respectif.
   y = Math.min(y, colonneGaucheBas - 14)
 
+  const droiteX = MARGIN + 300
+
   // --- Bloc client (gauche) -------------------------------------------
   const yBlocInfos = y
   page.drawText('Code Client :', { x: MARGIN, y, size: 8, font: fontBold })
@@ -257,7 +285,12 @@ export async function genererDevisPdf(
   y -= 12
   if (client.adresse) {
     page.drawText('Adresse :', { x: MARGIN, y, size: 8, font: fontBold })
-    page.drawText(client.adresse, { x: MARGIN + 65, y, size: 8, font })
+    const largeurAdresse = droiteX - (MARGIN + 65) - 10
+    const lignesAdresse = decouperTexte(client.adresse, largeurAdresse, font, 8)
+    lignesAdresse.forEach((ligneTexte, i) => {
+      page.drawText(ligneTexte, { x: MARGIN + 65, y, size: 8, font })
+      if (i < lignesAdresse.length - 1) y -= 10
+    })
     y -= 12
   }
   const contact = [client.telephone && `Tél : ${client.telephone}`, client.email].filter(Boolean).join('   ')
@@ -268,17 +301,32 @@ export async function genererDevisPdf(
 
   // --- Bloc infos commerciales (droite) --------------------------------
   let yDroite = yBlocInfos
-  const infosCommerciales = [
-    devis.mode_livraison && ['Mode de livraison', devis.mode_livraison],
-    devis.delai_livraison && ['Délai de livraison', devis.delai_livraison],
-    devis.mode_paiement && ['Mode de paiement', devis.mode_paiement],
-    devis.validite && ["Validité de l'offre", devis.validite],
-  ].filter(Boolean) as [string, string][]
+  const infosCommerciales: { label: string; valeur: string }[] = []
+  if (devis.mode_livraison) {
+    infosCommerciales.push({ label: 'Mode de livraison', valeur: devis.mode_livraison })
+  }
+  if (devis.delai_livraison) {
+    infosCommerciales.push({ label: 'Délai de livraison', valeur: formaterDelaiLivraison(devis.delai_livraison) })
+  }
+  if (devis.mode_paiement) {
+    // Texte fixe sur le PDF quel que soit le mode choisi dans le formulaire
+    // (Chèque/Espèce) — ce choix ne sert que pour l'étape Facture à venir.
+    infosCommerciales.push({ label: 'Mode de paiement', valeur: '50% avance à la commande' })
+    infosCommerciales.push({ label: 'Solde', valeur: '48h avant enlèvement' })
+  }
+  if (devis.validite) {
+    infosCommerciales.push({ label: "Validité de l'offre", valeur: devis.validite })
+  }
 
-  const droiteX = MARGIN + 300
-  infosCommerciales.forEach(([label, valeur]) => {
+  const droiteLabelWidth = 100
+  const droiteValeurLargeur = TABLE_RIGHT - (droiteX + droiteLabelWidth)
+  infosCommerciales.forEach(({ label, valeur }) => {
     page.drawText(`${label} :`, { x: droiteX, y: yDroite, size: 8, font: fontBold })
-    page.drawText(valeur, { x: droiteX + 100, y: yDroite, size: 8, font })
+    const lignesValeur = decouperTexte(valeur, droiteValeurLargeur, font, 8)
+    lignesValeur.forEach((ligneTexte, i) => {
+      page.drawText(ligneTexte, { x: droiteX + droiteLabelWidth, y: yDroite, size: 8, font })
+      if (i < lignesValeur.length - 1) yDroite -= 10
+    })
     yDroite -= 12
   })
 
