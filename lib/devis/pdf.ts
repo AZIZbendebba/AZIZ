@@ -15,7 +15,7 @@ const GRIS = rgb(0.4, 0.4, 0.4)
 const GRIS_CLAIR = rgb(0.75, 0.75, 0.75)
 
 // Découpe un texte en lignes qui tiennent chacune dans `largeurMax`.
-function decouperTexte(texte: string, largeurMax: number, f: PDFFont, taille: number): string[] {
+export function decouperTexte(texte: string, largeurMax: number, f: PDFFont, taille: number): string[] {
   const mots = texte.split(' ')
   const lignes: string[] = []
   let ligneCourante = ''

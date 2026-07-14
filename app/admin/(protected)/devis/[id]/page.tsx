@@ -50,6 +50,9 @@ export default async function DevisDetailPage({ params }: Props) {
           <a href={`/api/devis/${devis.id}/pdf`} className={buttonPrimaryClass}>
             Télécharger PDF
           </a>
+          <Link href={`/admin/bons-livraison/nouveau?devis=${devis.id}`} className={buttonSecondaryClass}>
+            Convertir en BL
+          </Link>
           <Link href={`/admin/devis/${devis.id}/modifier`} className={buttonSecondaryClass}>
             Modifier
           </Link>
